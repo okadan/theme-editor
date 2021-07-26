@@ -1,5 +1,5 @@
-name: app
-description: A new Flutter project.
+name: theme_editor
+description: Flutter web app for editing and previewing ThemeData object.
 publish_to: 'none'
 version: 1.0.0+1
 
