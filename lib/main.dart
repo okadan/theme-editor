@@ -66,7 +66,7 @@ class _HomeState extends State<_Home> {
               child: Preview(_node),
             ),
             SizedBox(
-              width: math.min(constraints.maxWidth * 0.5, 400),
+              width: math.min(constraints.maxWidth * 0.5, 350),
               child: Editor(_node, (value) => setState(() => _node = value)),
             ),
           ],
