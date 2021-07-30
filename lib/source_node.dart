@@ -5,7 +5,6 @@ import 'package:theme_editor/editor_color.dart';
 import 'package:theme_editor/editor_select.dart';
 
 part 'source_node.g.dart';
-part 'source_node.g.options.dart';
 
 class SourceNode<T> {
   SourceNode([this.source = '', this.children = const {}])

@@ -119,6 +119,12 @@ class _ExportDialogState extends State<_ExportDialog> {
                 children: [
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder()),
+                    child: Text('CANCEL'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  SizedBox(width: 8),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder()),
                     child: Text(_copiedTimer != null ? 'COPIED!' : 'COPY ALL'),
                     onPressed: _copiedTimer != null ? () {} : () async {
                       await Clipboard.setData(ClipboardData(text: widget.node.buildSource()));

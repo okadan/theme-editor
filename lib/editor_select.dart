@@ -34,3 +34,8 @@ class SelectEditor<T> extends StatelessWidget {
     );
   }
 }
+
+final Iterable<SourceNode<Brightness>> brightnessOptions = [
+  SourceNode('Brightness.dark'),
+  SourceNode('Brightness.light'),
+];
