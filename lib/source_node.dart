@@ -81,7 +81,7 @@ class SourceNode<T> {
   }
 }
 
-Widget buildEditor(String name, SourceNode node, ValueChanged<SourceNode> onChanged) {
+Widget buildEditor<T>(String name, SourceNode<T> node, ValueChanged<SourceNode<T>> onChanged) {
   final descendant = node.descendantOf(name);
   final descendantOnChanged = (value) => onChanged(node.updateDescendant(name, value));
   if (descendant is SourceNode<Color>)
@@ -91,11 +91,11 @@ Widget buildEditor(String name, SourceNode node, ValueChanged<SourceNode> onChan
   if (descendant.children.length > 1)
     return ChildrenEditor(name, descendant, descendantOnChanged);
   if (descendant.children.length == 1)
-    return buildEditor('$name.${descendant.children.keys.first}', node, onChanged);
+    return buildEditor<T>('$name.${descendant.children.keys.first}', node, onChanged);
   throw('unsupported: name=$name node=$descendant');
 }
 
-Widget buildEditorView(String path, SourceNode node, ValueChanged<SourceNode> onChanged) {
+Widget buildEditorView<T>(String path, SourceNode<T> node, ValueChanged<SourceNode<T>> onChanged) {
   final descendant = node.descendantOf(path);
   final descendantOnChanged = (value) => onChanged(node.updateDescendant(path, value));
   if (descendant is SourceNode<Color>)

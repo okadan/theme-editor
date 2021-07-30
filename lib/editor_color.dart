@@ -22,7 +22,11 @@ class ColorEditor extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(node.buildSource(), textAlign: TextAlign.end, overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    node.buildSource(),
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               InkWell(
@@ -99,7 +103,7 @@ class _ColorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 16,
-      children: colorOptionsGrid.expand((options) => List.generate(16, (i) {
+      children: _colorOptionsGrid.expand((options) => List.generate(16, (i) {
         if (options.length <= i)
           return SizedBox.shrink();
         final o = options.elementAt(i);
@@ -120,7 +124,7 @@ class _MaterialColorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 16,
-      children: materialColorOptions.map((e) =>
+      children: _materialColorOptions.map((e) =>
         _ColorTile<MaterialColor>(e, onChanged, e == node)).toList(),
     );
   }
@@ -151,7 +155,7 @@ class _ColorTile<T extends Color> extends StatelessWidget {
   }
 }
 
-final Iterable<Iterable<SourceNode<Color>>> colorOptionsGrid = [[
+final Iterable<Iterable<SourceNode<Color>>> _colorOptionsGrid = [[
   SourceNode('Colors.red'),
   SourceNode('Colors.red.shade50'),
   SourceNode('Colors.red.shade100'),
@@ -479,7 +483,7 @@ final Iterable<Iterable<SourceNode<Color>>> colorOptionsGrid = [[
   SourceNode('Colors.black87'),
 ]];
 
-final Iterable<SourceNode<MaterialColor>> materialColorOptions = [
+final Iterable<SourceNode<MaterialColor>> _materialColorOptions = [
   SourceNode('Colors.red'),
   SourceNode('Colors.pink'),
   SourceNode('Colors.purple'),

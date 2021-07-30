@@ -70,11 +70,7 @@ class EditorState extends State<Editor> {
                 return MaterialPage(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: buildEditorView(
-                      path,
-                      widget.node,
-                      (value) => widget.onChanged(value as SourceNode<ThemeData>),
-                    ),
+                    child: buildEditorView(path, widget.node, widget.onChanged),
                   ),
                 );
               }),

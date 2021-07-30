@@ -22,7 +22,11 @@ class ChildrenEditor<T> extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(node.buildSource(), textAlign: TextAlign.end, overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    node.buildSource(),
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               InkWell(
@@ -49,11 +53,7 @@ class ChildrenEditorView<T> extends StatelessWidget {
     return ListView(
       children: node.children.keys.map((e) => ConstrainedBox(
         constraints: BoxConstraints(minHeight: 26),
-        child: buildEditor(
-          e,
-          node,
-          (value) => onChanged(value as SourceNode<T>),
-        ),
+        child: buildEditor(e, node, onChanged),
       )).toList(),
     );
   }
