@@ -148,10 +148,5 @@ ThemeData _themeData(ColorScheme colorScheme) {
   return ThemeData(
     colorScheme: colorScheme,
     appBarTheme: AppBarTheme(centerTitle: false),
-    inputDecorationTheme: InputDecorationTheme(
-      isDense: true,
-      border: OutlineInputBorder(borderRadius: BorderRadius.zero),
-      contentPadding: EdgeInsets.all(4),
-    ),
   );
 }

@@ -16,18 +16,30 @@ class SelectEditor<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        Text(name),
         Expanded(
-          child: Text(name),
-        ),
-        IntrinsicWidth(
-          child: DropdownButtonFormField<SourceNode<T>>(
-            value: node,
-            items: [SourceNode<T>(), ...options].map((e) => DropdownMenuItem(
-              value: e,
-              child: Text(e.buildSource().split('.').last),
-              onTap: node == e ? null : () => onChanged(e),
-            )).toList(),
-            onChanged: (_) {},
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    node.buildSource().split('.').last,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ),
+              SizedBox(width: 22, height: 22, child: PopupMenuButton<SourceNode<T>>(
+                tooltip: 'Select value',
+                icon: Icon(Icons.arrow_drop_down, size: 20),
+                padding: EdgeInsets.zero,
+                itemBuilder: (context) => options.map((e) => PopupMenuItem<SourceNode<T>>(
+                  value: e,
+                  child: Text(e.buildSource().split('.').last),
+                )).toList(),
+                onSelected: (value) => value == node ? null : onChanged(value),
+              )),
+            ],
           ),
         ),
       ],
@@ -36,6 +48,7 @@ class SelectEditor<T> extends StatelessWidget {
 }
 
 final Iterable<SourceNode<Brightness>> brightnessOptions = [
+  SourceNode(),
   SourceNode('Brightness.dark'),
   SourceNode('Brightness.light'),
 ];
