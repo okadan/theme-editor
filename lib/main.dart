@@ -13,8 +13,8 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: _Home(),
-    theme: _themeData(ColorScheme.light()),
     darkTheme: _themeData(ColorScheme.dark()),
+    themeMode: ThemeMode.dark,
   ));
 }
 
