@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/source_node.dart';
 
-class ColorEditor extends StatelessWidget {
-  ColorEditor(this.name, this.node, this.onChanged);
+class ColorEditorField<T extends Color> extends StatelessWidget {
+  ColorEditorField(this.path, this.node);
 
-  final String name;
+  final Iterable<String> path;
 
-  final SourceNode<Color> node;
-
-  final ValueChanged<SourceNode<Color>> onChanged;
+  final SourceNode<T> node;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(name),
+        Text(extractName(path.last)),
         Expanded(
           child: Row(
             children: [
@@ -37,7 +35,7 @@ class ColorEditor extends StatelessWidget {
                   ),
                   child: SizedBox(width: 22, height: 22),
                 ),
-                onTap: () => EditorState.push(context, name),
+                onTap: () => Editor.of(context).push(path.last),
               ),
             ],
           ),
@@ -47,12 +45,12 @@ class ColorEditor extends StatelessWidget {
   }
 }
 
-class ColorEditorView extends StatelessWidget {
-  ColorEditorView(this.node, this.onChanged);
+class ColorEditor<T extends Color> extends StatelessWidget {
+  ColorEditor(this.path, this.node);
 
-  final SourceNode<Color> node;
+  final Iterable<String> path;
 
-  final ValueChanged<SourceNode<Color>> onChanged;
+  final SourceNode<T> node;
 
   @override
   Widget build(BuildContext context) {
@@ -74,70 +72,50 @@ class ColorEditorView extends StatelessWidget {
               if (node.value != null)
                 InkWell(
                   child: Icon(Icons.clear, size: 14),
-                  onTap: () => onChanged(node is SourceNode<MaterialColor>
-                    ? SourceNode<MaterialColor>()
-                    : SourceNode(),
-                  ),
+                  onTap: () => Editor.of(context).onChanged<T>(path, SourceNode<T>()),
                 ),
             ],
           ),
         ),
         Expanded(
-          child: node is SourceNode<MaterialColor>
-            ? _MaterialColorPicker(node as SourceNode<MaterialColor>, onChanged)
-            : _ColorPicker(node, onChanged),
+          child: GridView.count(
+            crossAxisCount: 16,
+            children: [
+              if (node is SourceNode<MaterialColor>)
+                ..._materialColorOptions.map((e) {
+                  return _ColorTile<MaterialColor>(
+                    e,
+                    e == node,
+                    (value) => Editor.of(context).onChanged<MaterialColor>(path, value),
+                  );
+                })
+              else if (node is SourceNode<Color>)
+                ..._colorOptionsGrid.expand((options) => List.generate(16, (i) {
+                  if (options.length <= i)
+                    return SizedBox.shrink();
+                  final o = options.elementAt(i);
+                  return _ColorTile<Color>(
+                    o,
+                    o == node,
+                    (value) => Editor.of(context).onChanged<Color>(path, value),
+                  );
+                })),
+            ],
+          ),
         ),
       ],
     );
   }
 }
 
-class _ColorPicker extends StatelessWidget {
-  _ColorPicker(this.node, this.onChanged);
-
-  final SourceNode<Color> node;
-
-  final ValueChanged<SourceNode<Color>> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 16,
-      children: _colorOptionsGrid.expand((options) => List.generate(16, (i) {
-        if (options.length <= i)
-          return SizedBox.shrink();
-        final o = options.elementAt(i);
-        return _ColorTile<Color>(o, onChanged, o == node);
-      })).toList(),
-    );
-  }
-}
-
-class _MaterialColorPicker extends StatelessWidget {
-  _MaterialColorPicker(this.node, this.onChanged);
-
-  final SourceNode<MaterialColor> node;
-
-  final ValueChanged<SourceNode<MaterialColor>> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 16,
-      children: _materialColorOptions.map((e) =>
-        _ColorTile<MaterialColor>(e, onChanged, e == node)).toList(),
-    );
-  }
-}
-
 class _ColorTile<T extends Color> extends StatelessWidget {
-  _ColorTile(this.node, this.onChanged, this.selected);
+  _ColorTile(this.node, this.selected, this.onChanged);
 
   final SourceNode<T> node;
 
-  final ValueChanged<SourceNode<T>> onChanged;
-
   final bool selected;
+
+  final ValueChanged<SourceNode<T>> onChanged;
 
   @override
   Widget build(BuildContext context) {

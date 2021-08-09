@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/source_node.dart';
 
-class SelectEditor<T> extends StatelessWidget {
-  SelectEditor(this.name, this.node, this.onChanged, this.options);
+class SelectEditorField<T> extends StatelessWidget {
+  SelectEditorField(this.path, this.node, this.options);
 
-  final String name;
+  final Iterable<String> path;
 
   final SourceNode<T> node;
-
-  final ValueChanged<SourceNode<T>> onChanged;
 
   final Iterable<SourceNode<T>> options;
 
@@ -16,7 +15,7 @@ class SelectEditor<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(name),
+        Text(extractName(path.last)),
         Expanded(
           child: Row(
             children: [
@@ -26,6 +25,7 @@ class SelectEditor<T> extends StatelessWidget {
                   child: Text(
                     node.buildSource().split('.').last,
                     textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
@@ -35,9 +35,11 @@ class SelectEditor<T> extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 itemBuilder: (context) => options.map((e) => PopupMenuItem<SourceNode<T>>(
                   value: e,
-                  child: Text(e.buildSource().split('.').last),
+                  child: Text(e.source.isEmpty ? 'null' : e.source.split('.').last),
                 )).toList(),
-                onSelected: (value) => value == node ? null : onChanged(value),
+                onSelected: (value) => value == node
+                  ? null
+                  : Editor.of(context).onChanged<T>(path, value),
               )),
             ],
           ),
@@ -49,6 +51,6 @@ class SelectEditor<T> extends StatelessWidget {
 
 final Iterable<SourceNode<Brightness>> brightnessOptions = [
   SourceNode(),
-  SourceNode('Brightness.dark'),
   SourceNode('Brightness.light'),
+  SourceNode('Brightness.dark'),
 ];

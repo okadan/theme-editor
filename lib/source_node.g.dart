@@ -3,88 +3,93 @@
 part of 'source_node.dart';
 
 final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
-  'brightness': SourceNode<Brightness>(),
-  'primarySwatch': SourceNode<MaterialColor>(),
-  'primaryColor': SourceNode<Color>(),
-  'primaryColorLight': SourceNode<Color>(),
-  'primaryColorDark': SourceNode<Color>(),
-  'primaryColorBrightness': SourceNode<Brightness>(),
-  'accentColor': SourceNode<Color>(),
-  'accentColorBrightness': SourceNode<Brightness>(),
-  'elevatedButtonTheme': elevatedButtonThemeDataNode,
-  'outlinedButtonTheme': outlinedButtonThemeDataNode,
-  'textButtonTheme': textButtonThemeDataNode,
+  '?#colorScheme': SourceNode<ColorScheme>(),
+  '?#brightness': SourceNode<Brightness>(),
+  '?#primarySwatch': SourceNode<MaterialColor>(),
+  '?#primaryColor': SourceNode<Color>(),
+  '?#primaryColorLight': SourceNode<Color>(),
+  '?#primaryColorDark': SourceNode<Color>(),
+  '?#primaryColorBrightness': SourceNode<Brightness>(),
+  '?#accentColor': SourceNode<Color>(),
+  '?#accentColorBrightness': SourceNode<Brightness>(),
+  '?#elevatedButtonTheme': elevatedButtonThemeDataNode,
+  '?#outlinedButtonTheme': outlinedButtonThemeDataNode,
+  '?#textButtonTheme': textButtonThemeDataNode,
+}));
+
+final colorSchemeFromSwatchNode = SourceNode<ColorScheme>('ColorScheme.fromSwatch', Map.unmodifiable({
+  '@!#primarySwatch': SourceNode<MaterialColor>(),
+  '?#primaryColorDark': SourceNode<Color>(),
+  '?#accentColor': SourceNode<Color>(),
+  '?#cardColor': SourceNode<Color>(),
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#errorColor': SourceNode<Color>(),
+  '@!#brightness': SourceNode<Brightness>(),
+}));
+
+final colorSchemeLightNode = SourceNode<ColorScheme>('ColorScheme.light', Map.unmodifiable({
+  '@!#primary': SourceNode<Color>(),
+  '@!#primaryVariant': SourceNode<Color>(),
+  '@!#secondary': SourceNode<Color>(),
+  '@!#secondaryVariant': SourceNode<Color>(),
+  '@!#surface': SourceNode<Color>(),
+  '@!#background': SourceNode<Color>(),
+  '@!#error': SourceNode<Color>(),
+  '@!#onPrimary': SourceNode<Color>(),
+  '@!#onSecondary': SourceNode<Color>(),
+  '@!#onSurface': SourceNode<Color>(),
+  '@!#onBackground': SourceNode<Color>(),
+  '@!#onError': SourceNode<Color>(),
+  '@!#brightness': SourceNode<Brightness>(),
+}));
+
+final colorSchemeDarkNode = SourceNode<ColorScheme>('ColorScheme.dark', Map.unmodifiable({
+  '@!#primary': SourceNode<Color>(),
+  '@!#primaryVariant': SourceNode<Color>(),
+  '@!#secondary': SourceNode<Color>(),
+  '@!#secondaryVariant': SourceNode<Color>(),
+  '@!#surface': SourceNode<Color>(),
+  '@!#background': SourceNode<Color>(),
+  '@!#error': SourceNode<Color>(),
+  '@!#onPrimary': SourceNode<Color>(),
+  '@!#onSecondary': SourceNode<Color>(),
+  '@!#onSurface': SourceNode<Color>(),
+  '@!#onBackground': SourceNode<Color>(),
+  '@!#onError': SourceNode<Color>(),
+  '@!#brightness': SourceNode<Brightness>(),
 }));
 
 final elevatedButtonThemeDataNode = SourceNode<ElevatedButtonThemeData>('ElevatedButtonThemeData', Map.unmodifiable({
-  'style': elevatedButtonStyleFromNode,
+  '?#style': elevatedButtonStyleFromNode,
 }));
 
 final outlinedButtonThemeDataNode = SourceNode<OutlinedButtonThemeData>('OutlinedButtonThemeData', Map.unmodifiable({
-  'style': outlinedButtonStyleFromNode,
+  '?#style': outlinedButtonStyleFromNode,
 }));
 
 final textButtonThemeDataNode = SourceNode<TextButtonThemeData>('TextButtonThemeData', Map.unmodifiable({
-  'style': textButtonStyleFromNode,
+  '?#style': textButtonStyleFromNode,
 }));
 
 final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styleFrom', Map.unmodifiable({
-  'primary': SourceNode<Color>(),
-  'onPrimary': SourceNode<Color>(),
-  'onSurface': SourceNode<Color>(),
+  '?#primary': SourceNode<Color>(),
+  '?#onPrimary': SourceNode<Color>(),
+  '?#onSurface': SourceNode<Color>(),
 }));
 
 final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styleFrom', Map.unmodifiable({
-  'primary': SourceNode<Color>(),
-  'onSurface': SourceNode<Color>(),
+  '?#primary': SourceNode<Color>(),
+  '?#onSurface': SourceNode<Color>(),
 }));
 
 final textButtonStyleFromNode = SourceNode<ButtonStyle>('TextButton.styleFrom', Map.unmodifiable({
-  'primary': SourceNode<Color>(),
-  'onSurface': SourceNode<Color>(),
+  '?#primary': SourceNode<Color>(),
+  '?#onSurface': SourceNode<Color>(),
 }));
 
-dynamic _buildValue(String source, Map<String, dynamic> children) =>
-  source == 'ThemeData' ? ThemeData(
-    brightness: children['brightness']!.value,
-    primarySwatch: children['primarySwatch']!.value,
-    primaryColor: children['primaryColor']!.value,
-    primaryColorLight: children['primaryColorLight']!.value,
-    primaryColorDark: children['primaryColorDark']!.value,
-    primaryColorBrightness: children['primaryColorBrightness']!.value,
-    accentColor: children['accentColor']!.value,
-    accentColorBrightness: children['accentColorBrightness']!.value,
-    elevatedButtonTheme: children['elevatedButtonTheme']!.value,
-    outlinedButtonTheme: children['outlinedButtonTheme']!.value,
-    textButtonTheme: children['textButtonTheme']!.value,
-  ) :
-  source == 'ElevatedButtonThemeData' ? ElevatedButtonThemeData(
-    style: children['style']!.value,
-  ) :
-  source == 'OutlinedButtonThemeData' ? OutlinedButtonThemeData(
-    style: children['style']!.value,
-  ) :
-  source == 'TextButtonThemeData' ? TextButtonThemeData(
-    style: children['style']!.value,
-  ) :
-  source == 'ElevatedButton.styleFrom' ? ElevatedButton.styleFrom(
-    primary: children['primary']!.value,
-    onPrimary: children['onPrimary']!.value,
-    onSurface: children['onSurface']!.value,
-  ) :
-  source == 'OutlinedButton.styleFrom' ? OutlinedButton.styleFrom(
-    primary: children['primary']!.value,
-    onSurface: children['onSurface']!.value,
-  ) :
-  source == 'TextButton.styleFrom' ? TextButton.styleFrom(
-    primary: children['primary']!.value,
-    onSurface: children['onSurface']!.value,
-  ) :
-  throw('unsupported: source=$source children=$children');
-
-final Map<String, dynamic> _sourceValues = Map.unmodifiable(<String, dynamic>{
-  'Brightness.dark': Brightness.dark,
+final _sourceValues = Map<String, dynamic>.unmodifiable(<String, dynamic>{
   'Brightness.light': Brightness.light,
+  'Brightness.dark': Brightness.dark,
   'Colors.red': Colors.red,
   'Colors.red.shade50': Colors.red.shade50,
   'Colors.red.shade100': Colors.red.shade100,
@@ -391,3 +396,81 @@ final Map<String, dynamic> _sourceValues = Map.unmodifiable(<String, dynamic>{
   'Colors.black54': Colors.black54,
   'Colors.black87': Colors.black87,
 });
+
+dynamic _buildValue(String source, Map<String, SourceNode> children) =>
+  source == 'ThemeData' ? ThemeData(
+    colorScheme: children['?#colorScheme']!.value,
+    brightness: children['?#brightness']!.value,
+    primarySwatch: children['?#primarySwatch']!.value,
+    primaryColor: children['?#primaryColor']!.value,
+    primaryColorLight: children['?#primaryColorLight']!.value,
+    primaryColorDark: children['?#primaryColorDark']!.value,
+    primaryColorBrightness: children['?#primaryColorBrightness']!.value,
+    accentColor: children['?#accentColor']!.value,
+    accentColorBrightness: children['?#accentColorBrightness']!.value,
+    elevatedButtonTheme: children['?#elevatedButtonTheme']!.value,
+    outlinedButtonTheme: children['?#outlinedButtonTheme']!.value,
+    textButtonTheme: children['?#textButtonTheme']!.value,
+  ) :
+  source == 'ColorScheme.fromSwatch' ? ColorScheme.fromSwatch(
+    primarySwatch: children['@!#primarySwatch']!.value ?? Colors.blue,
+    primaryColorDark: children['?#primaryColorDark']!.value,
+    accentColor: children['?#accentColor']!.value,
+    cardColor: children['?#cardColor']!.value,
+    backgroundColor: children['?#backgroundColor']!.value,
+    errorColor: children['?#errorColor']!.value,
+    brightness: children['@!#brightness']!.value ?? Brightness.light,
+  ) :
+  source == 'ColorScheme.light' ? ColorScheme.light(
+    primary: children['@!#primary']!.value ?? Color(0xff6200ee),
+    primaryVariant: children['@!#primaryVariant']!.value ?? Color(0xff3700b3),
+    secondary: children['@!#secondary']!.value ?? Color(0xff03dac6),
+    secondaryVariant: children['@!#secondaryVariant']!.value ?? Color(0xff018786),
+    surface: children['@!#surface']!.value ?? Colors.white,
+    background: children['@!#background']!.value ?? Colors.white,
+    error: children['@!#error']!.value ?? Color(0xffb00020),
+    onPrimary: children['@!#onPrimary']!.value ?? Colors.white,
+    onSecondary: children['@!#onSecondary']!.value ?? Colors.black,
+    onSurface: children['@!#onSurface']!.value ?? Colors.black,
+    onBackground: children['@!#onBackground']!.value ?? Colors.black,
+    onError: children['@!#onError']!.value ?? Colors.white,
+    brightness: children['@!#brightness']!.value ?? Brightness.light,
+  ) :
+  source == 'ColorScheme.dark' ? ColorScheme.dark(
+    primary: children['@!#primary']!.value ?? Color(0xffbb86fc),
+    primaryVariant: children['@!#primaryVariant']!.value ?? Color(0xff3700B3),
+    secondary: children['@!#secondary']!.value ?? Color(0xff03dac6),
+    secondaryVariant: children['@!#secondaryVariant']!.value ?? Color(0xff03dac6),
+    surface: children['@!#surface']!.value ?? Color(0xff121212),
+    background: children['@!#background']!.value ?? Color(0xff121212),
+    error: children['@!#error']!.value ?? Color(0xffcf6679),
+    onPrimary: children['@!#onPrimary']!.value ?? Colors.black,
+    onSecondary: children['@!#onSecondary']!.value ?? Colors.black,
+    onSurface: children['@!#onSurface']!.value ?? Colors.white,
+    onBackground: children['@!#onBackground']!.value ?? Colors.white,
+    onError: children['@!#onError']!.value ?? Colors.black,
+    brightness: children['@!#brightness']!.value ?? Brightness.dark,
+  ) :
+  source == 'ElevatedButtonThemeData' ? ElevatedButtonThemeData(
+    style: children['?#style']!.value,
+  ) :
+  source == 'OutlinedButtonThemeData' ? OutlinedButtonThemeData(
+    style: children['?#style']!.value,
+  ) :
+  source == 'TextButtonThemeData' ? TextButtonThemeData(
+    style: children['?#style']!.value,
+  ) :
+  source == 'ElevatedButton.styleFrom' ? ElevatedButton.styleFrom(
+    primary: children['?#primary']!.value,
+    onPrimary: children['?#onPrimary']!.value,
+    onSurface: children['?#onSurface']!.value,
+  ) :
+  source == 'OutlinedButton.styleFrom' ? OutlinedButton.styleFrom(
+    primary: children['?#primary']!.value,
+    onSurface: children['?#onSurface']!.value,
+  ) :
+  source == 'TextButton.styleFrom' ? TextButton.styleFrom(
+    primary: children['?#primary']!.value,
+    onSurface: children['?#onSurface']!.value,
+  ) :
+  throw('unsupported: source=$source children=$children');

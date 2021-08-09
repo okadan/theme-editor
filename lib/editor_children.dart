@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/source_node.dart';
 
-class ChildrenEditor<T> extends StatelessWidget {
-  ChildrenEditor(this.name, this.node, this.onChanged);
+class ChildrenEditorField<T> extends StatelessWidget {
+  ChildrenEditorField(this.path, this.node);
 
-  final String name;
+  final Iterable<String> path;
 
   final SourceNode<T> node;
-
-  final ValueChanged<SourceNode<T>> onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(name),
+        Text(extractName(path.last)),
         Expanded(
           child: Row(
             children: [
@@ -31,7 +29,7 @@ class ChildrenEditor<T> extends StatelessWidget {
               ),
               InkWell(
                 child: Text('Edit', style: TextStyle(color: Theme.of(context).accentColor)),
-                onTap: () => EditorState.push(context, name),
+                onTap: () => Editor.of(context).push(path.last),
               ),
             ],
           ),
@@ -41,19 +39,19 @@ class ChildrenEditor<T> extends StatelessWidget {
   }
 }
 
-class ChildrenEditorView<T> extends StatelessWidget {
-  ChildrenEditorView(this.node, this.onChanged);
+class ChildrenEditor<T> extends StatelessWidget {
+  ChildrenEditor(this.path, this.node);
+
+  final Iterable<String> path;
 
   final SourceNode<T> node;
-
-  final ValueChanged<SourceNode<T>> onChanged;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: node.children.keys.map((e) => ConstrainedBox(
+      children: node.children.entries.map((e) => ConstrainedBox(
         constraints: BoxConstraints(minHeight: 26),
-        child: buildEditor(e, node, onChanged),
+        child: buildEditorField([...path, e.key], e.value),
       )).toList(),
     );
   }

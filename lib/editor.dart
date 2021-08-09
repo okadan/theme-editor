@@ -10,17 +10,21 @@ class Editor extends StatefulWidget {
 
   final ValueChanged<SourceNode<ThemeData>> onChanged;
 
+  static EditorState of(BuildContext context) =>
+    context.findAncestorStateOfType<EditorState>()!;
+
   @override
   State<StatefulWidget> createState() => EditorState();
 }
 
 class EditorState extends State<Editor> {
-  final List<String> _names = [];
+  List<String> _path = [];
 
-  static void push(BuildContext context, String name) {
-    final state = context.findAncestorStateOfType<EditorState>()!;
-    state.setState(() => state._names.add(name));
-  }
+  void push(String identifier) =>
+    setState(() => _path.add(identifier));
+
+  void onChanged<T>(Iterable<String> path, SourceNode<T> node) =>
+    widget.onChanged(widget.node.updateDescendant<T>(path.join('.'), node));
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +34,25 @@ class EditorState extends State<Editor> {
           alignment: Alignment.centerLeft,
           constraints: BoxConstraints(minHeight: 26),
           decoration: BoxDecoration(color: Theme.of(context).hoverColor),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          padding: EdgeInsets.all(4),
           child: RichText(
             text: TextSpan(
               style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
               children: [
                 TextSpan(
                   text: widget.node.source,
-                  style: _names.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
-                  recognizer: _names.isEmpty ? null : (TapGestureRecognizer()
-                    ..onTap = () => setState(() => _names.clear())),
+                  style: _path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
+                  recognizer: _path.isEmpty ? null : (TapGestureRecognizer()
+                    ..onTap = () => setState(() => _path.clear())),
                 ),
-                ...List.generate(_names.length * 2, (i) {
+                ...List.generate(_path.length * 2, (i) {
                   if (i.isEven)
                     return TextSpan(text: ' > ');
                   return TextSpan(
-                    text: _names[i ~/ 2],
-                    style: i ~/ 2 + 1 == _names.length ? null : TextStyle(color: Theme.of(context).accentColor),
-                    recognizer: i ~/ 2 + 1 == _names.length ? null : (TapGestureRecognizer()
-                      ..onTap = () => setState(() => _names.removeRange(i ~/ 2 + 1, _names.length))),
+                    text: extractName(_path[i ~/ 2]),
+                    style: i ~/ 2 + 1 == _path.length ? null : TextStyle(color: Theme.of(context).accentColor),
+                    recognizer: i ~/ 2 + 1 == _path.length ? null : (TapGestureRecognizer()
+                      ..onTap = () => setState(() => _path.removeRange(i ~/ 2 + 1, _path.length))),
                   );
                 }),
               ],
@@ -56,31 +60,35 @@ class EditorState extends State<Editor> {
           ),
         ),
         Expanded(
-          child: Navigator(
-            transitionDelegate: _NoAnimationTransitionDelegate(),
-            pages: [
-              MaterialPage(
-                child: Padding(
-                  padding: EdgeInsets.all(4),
-                  child: ChildrenEditorView(widget.node, widget.onChanged),
-                ),
-              ),
-              ...List.generate(_names.length, (i) {
-                final path = _names.sublist(0, i + 1).join('.');
-                return MaterialPage(
+          child: ClipRect(
+            child: Navigator(
+              transitionDelegate: _NoAnimationTransitionDelegate(),
+              pages: [
+                MaterialPage(
                   child: Padding(
                     padding: EdgeInsets.all(4),
-                    child: buildEditorView(path, widget.node, widget.onChanged),
+                    child: ChildrenEditor<ThemeData>([], widget.node),
                   ),
-                );
-              }),
-            ],
-            onPopPage: (route, result) {
-              if (!route.didPop(result))
-                return false;
-              setState(() => _names.removeLast());
-              return true;
-            },
+                ),
+                ...List.generate(_path.length, (i) {
+                  final path = _path.sublist(0, i + 1);
+                  return MaterialPage(
+                    child: Padding(
+                      padding: EdgeInsets.all(4),
+                      child: buildEditor(
+                        path,
+                        path.join('.').split('.').fold(widget.node, (p, e) => p.children[e]!)),
+                      ),
+                    );
+                }),
+              ],
+              onPopPage: (route, result) {
+                if (!route.didPop(result))
+                  return false;
+                setState(() => _path.removeLast());
+                return true;
+              },
+            ),
           ),
         ),
       ],
