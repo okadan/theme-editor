@@ -12,6 +12,8 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#primaryColorBrightness': SourceNode<Brightness>(),
   '?#accentColor': SourceNode<Color>(),
   '?#accentColorBrightness': SourceNode<Brightness>(),
+  '?#scaffoldBackgroundColor': SourceNode<Color>(),
+  '?#backgroundColor': SourceNode<Color>(),
   '?#elevatedButtonTheme': elevatedButtonThemeDataNode,
   '?#outlinedButtonTheme': outlinedButtonThemeDataNode,
   '?#textButtonTheme': textButtonThemeDataNode,
@@ -75,16 +77,21 @@ final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styl
   '?#primary': SourceNode<Color>(),
   '?#onPrimary': SourceNode<Color>(),
   '?#onSurface': SourceNode<Color>(),
+  '?#shadowColor': SourceNode<Color>(),
 }));
 
 final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styleFrom', Map.unmodifiable({
   '?#primary': SourceNode<Color>(),
   '?#onSurface': SourceNode<Color>(),
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#shadowColor': SourceNode<Color>(),
 }));
 
 final textButtonStyleFromNode = SourceNode<ButtonStyle>('TextButton.styleFrom', Map.unmodifiable({
   '?#primary': SourceNode<Color>(),
   '?#onSurface': SourceNode<Color>(),
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#shadowColor': SourceNode<Color>(),
 }));
 
 final _sourceValues = Map<String, dynamic>.unmodifiable(<String, dynamic>{
@@ -408,6 +415,8 @@ dynamic _buildValue(String source, Map<String, SourceNode> children) =>
     primaryColorBrightness: children['?#primaryColorBrightness']!.value,
     accentColor: children['?#accentColor']!.value,
     accentColorBrightness: children['?#accentColorBrightness']!.value,
+    scaffoldBackgroundColor: children['?#scaffoldBackgroundColor']!.value,
+    backgroundColor: children['?#backgroundColor']!.value,
     elevatedButtonTheme: children['?#elevatedButtonTheme']!.value,
     outlinedButtonTheme: children['?#outlinedButtonTheme']!.value,
     textButtonTheme: children['?#textButtonTheme']!.value,
@@ -464,13 +473,18 @@ dynamic _buildValue(String source, Map<String, SourceNode> children) =>
     primary: children['?#primary']!.value,
     onPrimary: children['?#onPrimary']!.value,
     onSurface: children['?#onSurface']!.value,
+    shadowColor: children['?#shadowColor']!.value,
   ) :
   source == 'OutlinedButton.styleFrom' ? OutlinedButton.styleFrom(
     primary: children['?#primary']!.value,
     onSurface: children['?#onSurface']!.value,
+    backgroundColor: children['?#backgroundColor']!.value,
+    shadowColor: children['?#shadowColor']!.value,
   ) :
   source == 'TextButton.styleFrom' ? TextButton.styleFrom(
     primary: children['?#primary']!.value,
     onSurface: children['?#onSurface']!.value,
+    backgroundColor: children['?#backgroundColor']!.value,
+    shadowColor: children['?#shadowColor']!.value,
   ) :
   throw('unsupported: source=$source children=$children');
