@@ -27,6 +27,7 @@ class _Home extends StatefulWidget {
 }
 
 class _HomeState extends State<_Home> {
+  final GlobalKey<EditorState> _editorKey = GlobalKey();
   SourceNode<ThemeData> _node = themeDataNode;
 
   @override
@@ -38,9 +39,10 @@ class _HomeState extends State<_Home> {
           TextButton(
             style: TextButton.styleFrom(minimumSize: Size.fromWidth(85)),
             child: Text('RESET'),
-            onPressed: _node == themeDataNode
-              ? null
-              : () => setState(() => _node = themeDataNode),
+            onPressed: _node == themeDataNode ? null : () {
+              _editorKey.currentState!.path.clear();
+              setState(() => _node = themeDataNode);
+            },
           ),
           TextButton(
             style: TextButton.styleFrom(minimumSize: Size.fromWidth(85)),
@@ -67,7 +69,7 @@ class _HomeState extends State<_Home> {
           ),
           SizedBox(
             width: math.min(constraints.maxWidth / 2, 300),
-            child: Editor(_node, (value) => setState(() => _node = value)),
+            child: Editor(_editorKey, _node, (value) => setState(() => _node = value)),
           ),
         ],
       )),

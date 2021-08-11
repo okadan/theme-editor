@@ -4,7 +4,7 @@ import 'package:theme_editor/editor_children.dart';
 import 'package:theme_editor/source_node.dart';
 
 class Editor extends StatefulWidget {
-  Editor(this.node, this.onChanged);
+  Editor(Key key, this.node, this.onChanged) : super(key: key);
 
   final SourceNode<ThemeData> node;
 
@@ -18,10 +18,10 @@ class Editor extends StatefulWidget {
 }
 
 class EditorState extends State<Editor> {
-  List<String> _path = [];
+  List<String> path = [];
 
   void push(String identifier) =>
-    setState(() => _path.add(identifier));
+    setState(() => path.add(identifier));
 
   void onChanged<T>(Iterable<String> path, SourceNode<T> node) =>
     widget.onChanged(widget.node.updateDescendant<T>(path.join('.'), node));
@@ -41,18 +41,18 @@ class EditorState extends State<Editor> {
               children: [
                 TextSpan(
                   text: widget.node.source,
-                  style: _path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
-                  recognizer: _path.isEmpty ? null : (TapGestureRecognizer()
-                    ..onTap = () => setState(() => _path.clear())),
+                  style: path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
+                  recognizer: path.isEmpty ? null : (TapGestureRecognizer()
+                    ..onTap = () => setState(() => path.clear())),
                 ),
-                ...List.generate(_path.length * 2, (i) {
+                ...List.generate(path.length * 2, (i) {
                   if (i.isEven)
                     return TextSpan(text: ' > ');
                   return TextSpan(
-                    text: extractName(_path[i ~/ 2]),
-                    style: i ~/ 2 + 1 == _path.length ? null : TextStyle(color: Theme.of(context).accentColor),
-                    recognizer: i ~/ 2 + 1 == _path.length ? null : (TapGestureRecognizer()
-                      ..onTap = () => setState(() => _path.removeRange(i ~/ 2 + 1, _path.length))),
+                    text: extractName(path[i ~/ 2]),
+                    style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).accentColor),
+                    recognizer: i ~/ 2 + 1 == path.length ? null : (TapGestureRecognizer()
+                      ..onTap = () => setState(() => path.removeRange(i ~/ 2 + 1, path.length))),
                   );
                 }),
               ],
@@ -70,14 +70,14 @@ class EditorState extends State<Editor> {
                     child: ChildrenEditor<ThemeData>([], widget.node),
                   ),
                 ),
-                ...List.generate(_path.length, (i) {
-                  final path = _path.sublist(0, i + 1);
+                ...List.generate(path.length, (i) {
+                  final subpath = path.sublist(0, i + 1);
                   return MaterialPage(
                     child: Padding(
                       padding: EdgeInsets.all(4),
                       child: buildEditor(
-                        path,
-                        path.join('.').split('.').fold(widget.node, (p, e) => p.children[e]!)),
+                        subpath,
+                        subpath.join('.').split('.').fold(widget.node, (p, e) => p.children[e]!)),
                       ),
                     );
                 }),
@@ -85,7 +85,7 @@ class EditorState extends State<Editor> {
               onPopPage: (route, result) {
                 if (!route.didPop(result))
                   return false;
-                setState(() => _path.removeLast());
+                setState(() => path.removeLast());
                 return true;
               },
             ),
