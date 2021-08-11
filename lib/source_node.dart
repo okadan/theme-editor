@@ -82,7 +82,9 @@ class SourceNode<T> {
         final symbols = e.key.split('#').first;
         return symbols.contains('@') || e.value.source == 'null' || e.value.value != null;
       })) return null;
-      return _buildValue(source, children);
+      final value = _buildValue(source, children);
+      if (value != null) return value;
+      throw('unsupported: source=$source children=$children');
     }
   }
 }
