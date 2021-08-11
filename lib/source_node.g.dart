@@ -62,15 +62,15 @@ final colorSchemeDarkNode = SourceNode<ColorScheme>('ColorScheme.dark', Map.unmo
 }));
 
 final elevatedButtonThemeDataNode = SourceNode<ElevatedButtonThemeData>('ElevatedButtonThemeData', Map.unmodifiable({
-  '?#style': elevatedButtonStyleFromNode,
+  '?#style': SourceNode<ButtonStyle>(),
 }));
 
 final outlinedButtonThemeDataNode = SourceNode<OutlinedButtonThemeData>('OutlinedButtonThemeData', Map.unmodifiable({
-  '?#style': outlinedButtonStyleFromNode,
+  '?#style': SourceNode<ButtonStyle>(),
 }));
 
 final textButtonThemeDataNode = SourceNode<TextButtonThemeData>('TextButtonThemeData', Map.unmodifiable({
-  '?#style': textButtonStyleFromNode,
+  '?#style': SourceNode<ButtonStyle>(),
 }));
 
 final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styleFrom', Map.unmodifiable({

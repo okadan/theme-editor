@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_editor/editor_children.dart';
 import 'package:theme_editor/editor_color.dart';
-import 'package:theme_editor/editor_color_scheme.dart';
 import 'package:theme_editor/editor_select.dart';
 
 part 'source_node.g.dart';
@@ -97,6 +96,8 @@ Widget buildEditorField(Iterable<String> path, SourceNode node) {
     return ColorEditorField<MaterialColor>(path, node);
   if (node is SourceNode<Color>)
     return ColorEditorField<Color>(path, node);
+  if (node is SourceNode<ButtonStyle>)
+    return ChildrenEditorField<ButtonStyle>(path, node);
   if (node is SourceNode<ColorScheme>)
     return ChildrenEditorField<ColorScheme>(path, node);
   if (node is SourceNode<Brightness>)
@@ -116,8 +117,10 @@ Widget buildEditor(Iterable<String> path, SourceNode node) {
     return ColorEditor<MaterialColor>(path, node);
   if (node is SourceNode<Color>)
     return ColorEditor<Color>(path, node);
+  if (node is SourceNode<ButtonStyle>)
+    return SelectableChildrenEditor<ButtonStyle>(path, node, buttonStyleExecutableOptions);
   if (node is SourceNode<ColorScheme>)
-    return ColorSchemeEditor(path, node);
+    return SelectableChildrenEditor<ColorScheme>(path, node, colorSchemeExecutableOptions);
   if (node.children.isNotEmpty)
     return ChildrenEditor(path, node);
   throw('unsupported: path=$path node=$node');
