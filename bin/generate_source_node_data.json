@@ -4,10 +4,13 @@
     "MaterialColor",
     "Color",
     "ColorScheme",
+    "VisualDensity",
     "ElevatedButtonThemeData",
     "OutlinedButtonThemeData",
     "TextButtonThemeData",
-    "ButtonStyle"
+    "ButtonStyle",
+    "AppBarTheme",
+    "SliderThemeData"
   ],
   "sources": [
     "ThemeData",
@@ -19,7 +22,9 @@
     "TextButtonThemeData",
     "ElevatedButton.styleFrom",
     "OutlinedButton.styleFrom",
-    "TextButton.styleFrom"
+    "TextButton.styleFrom",
+    "AppBarTheme",
+    "SliderThemeData"
   ],
   "options": [
     "Brightness.light",
@@ -328,6 +333,10 @@
     "Colors.black38",
     "Colors.black45",
     "Colors.black54",
-    "Colors.black87"
+    "Colors.black87",
+    "VisualDensity.adaptivePlatformDensity",
+    "VisualDensity.comfortable",
+    "VisualDensity.compact",
+    "VisualDensity.standard"
   ]
 }

@@ -18,6 +18,14 @@ final outlinedButtonThemeDataNode = SourceNode<OutlinedButtonThemeData>('Outline
   '?#style': SourceNode<ButtonStyle>(),
 }));
 
+final appBarThemeNode = SourceNode<AppBarTheme>('AppBarTheme', Map.unmodifiable({
+  '?#brightness': SourceNode<Brightness>(),
+  '?#color': SourceNode<Color>(),
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#foregroundColor': SourceNode<Color>(),
+  '?#shadowColor': SourceNode<Color>(),
+}));
+
 final colorSchemeLightNode = SourceNode<ColorScheme>('ColorScheme.light', Map.unmodifiable({
   '@?!#primary': SourceNode<Color>(),
   '@?!#primaryVariant': SourceNode<Color>(),
@@ -65,6 +73,7 @@ final textButtonStyleFromNode = SourceNode<ButtonStyle>('TextButton.styleFrom', 
   '?#onSurface': SourceNode<Color>(),
   '?#backgroundColor': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
 }));
 
 final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styleFrom', Map.unmodifiable({
@@ -72,6 +81,7 @@ final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styl
   '?#onPrimary': SourceNode<Color>(),
   '?#onSurface': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
 }));
 
 final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styleFrom', Map.unmodifiable({
@@ -79,10 +89,28 @@ final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styl
   '?#onSurface': SourceNode<Color>(),
   '?#backgroundColor': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
+}));
+
+final sliderThemeDataNode = SourceNode<SliderThemeData>('SliderThemeData', Map.unmodifiable({
+  '?#activeTrackColor': SourceNode<Color>(),
+  '?#inactiveTrackColor': SourceNode<Color>(),
+  '?#disabledActiveTrackColor': SourceNode<Color>(),
+  '?#disabledInactiveTrackColor': SourceNode<Color>(),
+  '?#activeTickMarkColor': SourceNode<Color>(),
+  '?#inactiveTickMarkColor': SourceNode<Color>(),
+  '?#disabledActiveTickMarkColor': SourceNode<Color>(),
+  '?#disabledInactiveTickMarkColor': SourceNode<Color>(),
+  '?#thumbColor': SourceNode<Color>(),
+  '?#overlappingShapeStrokeColor': SourceNode<Color>(),
+  '?#disabledThumbColor': SourceNode<Color>(),
+  '?#overlayColor': SourceNode<Color>(),
+  '?#valueIndicatorColor': SourceNode<Color>(),
 }));
 
 final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#brightness': SourceNode<Brightness>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
   '?#primarySwatch': SourceNode<MaterialColor>(),
   '?#primaryColor': SourceNode<Color>(),
   '?#primaryColorBrightness': SourceNode<Brightness>(),
@@ -111,6 +139,8 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#hintColor': SourceNode<Color>(),
   '?#errorColor': SourceNode<Color>(),
   '?#toggleableActiveColor': SourceNode<Color>(),
+  '?#sliderTheme': sliderThemeDataNode,
+  '?#appBarTheme': appBarThemeNode,
   '?#colorScheme': SourceNode<ColorScheme>(),
   '?#textButtonTheme': textButtonThemeDataNode,
   '?#elevatedButtonTheme': elevatedButtonThemeDataNode,
@@ -126,6 +156,13 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
   ) :
   source == 'OutlinedButtonThemeData' ? OutlinedButtonThemeData(
     style: children['?#style']!.value,
+  ) :
+  source == 'AppBarTheme' ? AppBarTheme(
+    brightness: children['?#brightness']!.value,
+    color: children['?#color']!.value,
+    backgroundColor: children['?#backgroundColor']!.value,
+    foregroundColor: children['?#foregroundColor']!.value,
+    shadowColor: children['?#shadowColor']!.value,
   ) :
   source == 'ColorScheme.light' ? ColorScheme.light(
     primary: children['@?!#primary']!.value ?? const Color(0xff6200ee),
@@ -171,21 +208,40 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     onSurface: children['?#onSurface']!.value,
     backgroundColor: children['?#backgroundColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
   ) :
   source == 'ElevatedButton.styleFrom' ? ElevatedButton.styleFrom(
     primary: children['?#primary']!.value,
     onPrimary: children['?#onPrimary']!.value,
     onSurface: children['?#onSurface']!.value,
     shadowColor: children['?#shadowColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
   ) :
   source == 'OutlinedButton.styleFrom' ? OutlinedButton.styleFrom(
     primary: children['?#primary']!.value,
     onSurface: children['?#onSurface']!.value,
     backgroundColor: children['?#backgroundColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
+  ) :
+  source == 'SliderThemeData' ? SliderThemeData(
+    activeTrackColor: children['?#activeTrackColor']!.value,
+    inactiveTrackColor: children['?#inactiveTrackColor']!.value,
+    disabledActiveTrackColor: children['?#disabledActiveTrackColor']!.value,
+    disabledInactiveTrackColor: children['?#disabledInactiveTrackColor']!.value,
+    activeTickMarkColor: children['?#activeTickMarkColor']!.value,
+    inactiveTickMarkColor: children['?#inactiveTickMarkColor']!.value,
+    disabledActiveTickMarkColor: children['?#disabledActiveTickMarkColor']!.value,
+    disabledInactiveTickMarkColor: children['?#disabledInactiveTickMarkColor']!.value,
+    thumbColor: children['?#thumbColor']!.value,
+    overlappingShapeStrokeColor: children['?#overlappingShapeStrokeColor']!.value,
+    disabledThumbColor: children['?#disabledThumbColor']!.value,
+    overlayColor: children['?#overlayColor']!.value,
+    valueIndicatorColor: children['?#valueIndicatorColor']!.value,
   ) :
   source == 'ThemeData' ? ThemeData(
     brightness: children['?#brightness']!.value,
+    visualDensity: children['?#visualDensity']!.value,
     primarySwatch: children['?#primarySwatch']!.value,
     primaryColor: children['?#primaryColor']!.value,
     primaryColorBrightness: children['?#primaryColorBrightness']!.value,
@@ -214,6 +270,8 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     hintColor: children['?#hintColor']!.value,
     errorColor: children['?#errorColor']!.value,
     toggleableActiveColor: children['?#toggleableActiveColor']!.value,
+    sliderTheme: children['?#sliderTheme']!.value,
+    appBarTheme: children['?#appBarTheme']!.value,
     colorScheme: children['?#colorScheme']!.value,
     textButtonTheme: children['?#textButtonTheme']!.value,
     elevatedButtonTheme: children['?#elevatedButtonTheme']!.value,
@@ -529,4 +587,8 @@ final Map<String, Object> _sourceValues = Map.unmodifiable({
   'Colors.black45': Colors.black45,
   'Colors.black54': Colors.black54,
   'Colors.black87': Colors.black87,
+  'VisualDensity.adaptivePlatformDensity': VisualDensity.adaptivePlatformDensity,
+  'VisualDensity.comfortable': VisualDensity.comfortable,
+  'VisualDensity.compact': VisualDensity.compact,
+  'VisualDensity.standard': VisualDensity.standard,
 });

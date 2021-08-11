@@ -104,6 +104,8 @@ Widget buildEditorField(Iterable<String> path, SourceNode node) {
     return ChildrenEditorField<ColorScheme>(path, node);
   if (node is SourceNode<Brightness>)
     return SelectEditorField<Brightness>(path, node, brightnessOptions);
+  if (node is SourceNode<VisualDensity>)
+    return SelectEditorField<VisualDensity>(path, node, visualDensityOptions);
   if (node.children.length > 1)
     return ChildrenEditorField(path, node);
   if (node.children.length == 1)

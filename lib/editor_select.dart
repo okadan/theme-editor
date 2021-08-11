@@ -54,3 +54,11 @@ final Iterable<SourceNode<Brightness>> brightnessOptions = [
   SourceNode('Brightness.light'),
   SourceNode('Brightness.dark'),
 ];
+
+final Iterable<SourceNode<VisualDensity>> visualDensityOptions = [
+  SourceNode(),
+  SourceNode('VisualDensity.adaptivePlatformDensity'),
+  SourceNode('VisualDensity.comfortable'),
+  SourceNode('VisualDensity.compact'),
+  SourceNode('VisualDensity.standard'),
+];
