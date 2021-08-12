@@ -94,6 +94,8 @@ String extractName(String identifier) {
 }
 
 Widget buildEditorField(Iterable<String> path, SourceNode node) {
+  if (node is SourceNode<bool>)
+    return SelectEditorField<bool>(path, node, boolOptions);
   if (node is SourceNode<MaterialColor>)
     return ColorEditorField<MaterialColor>(path, node);
   if (node is SourceNode<Color>)

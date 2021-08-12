@@ -1,5 +1,6 @@
 {
   "types" : [
+    "bool",
     "Brightness",
     "MaterialColor",
     "Color",
@@ -27,6 +28,8 @@
     "SliderThemeData"
   ],
   "options": [
+    "true",
+    "false",
     "Brightness.light",
     "Brightness.dark",
     "Colors.red",

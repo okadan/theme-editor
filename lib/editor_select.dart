@@ -49,6 +49,12 @@ class SelectEditorField<T> extends StatelessWidget {
   }
 }
 
+final Iterable<SourceNode<bool>> boolOptions = [
+  SourceNode(),
+  SourceNode('true'),
+  SourceNode('false'),
+];
+
 final Iterable<SourceNode<Brightness>> brightnessOptions = [
   SourceNode(),
   SourceNode('Brightness.light'),
