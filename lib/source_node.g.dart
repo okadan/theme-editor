@@ -14,6 +14,11 @@ final elevatedButtonThemeDataNode = SourceNode<ElevatedButtonThemeData>('Elevate
   '?#style': SourceNode<ButtonStyle>(),
 }));
 
+final tabBarThemeNode = SourceNode<TabBarTheme>('TabBarTheme', Map.unmodifiable({
+  '?#labelColor': SourceNode<Color>(),
+  '?#unselectedLabelColor': SourceNode<Color>(),
+}));
+
 final outlinedButtonThemeDataNode = SourceNode<OutlinedButtonThemeData>('OutlinedButtonThemeData', Map.unmodifiable({
   '?#style': SourceNode<ButtonStyle>(),
 }));
@@ -97,6 +102,15 @@ final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styl
   '?#enableFeedback': SourceNode<bool>(),
 }));
 
+final bottomNavigationBarThemeDataNode = SourceNode<BottomNavigationBarThemeData>('BottomNavigationBarThemeData', Map.unmodifiable({
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#selectedItemColor': SourceNode<Color>(),
+  '?#unselectedItemColor': SourceNode<Color>(),
+  '?#showSelectedLabels': SourceNode<bool>(),
+  '?#showUnselectedLabels': SourceNode<bool>(),
+  '?#enableFeedback': SourceNode<bool>(),
+}));
+
 final sliderThemeDataNode = SourceNode<SliderThemeData>('SliderThemeData', Map.unmodifiable({
   '?#activeTrackColor': SourceNode<Color>(),
   '?#inactiveTrackColor': SourceNode<Color>(),
@@ -145,9 +159,11 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#errorColor': SourceNode<Color>(),
   '?#toggleableActiveColor': SourceNode<Color>(),
   '?#sliderTheme': sliderThemeDataNode,
+  '?#tabBarTheme': tabBarThemeNode,
   '?#applyElevationOverlayColor': SourceNode<bool>(),
   '?#appBarTheme': appBarThemeNode,
   '?#colorScheme': SourceNode<ColorScheme>(),
+  '?#bottomNavigationBarTheme': bottomNavigationBarThemeDataNode,
   '?#textButtonTheme': textButtonThemeDataNode,
   '?#elevatedButtonTheme': elevatedButtonThemeDataNode,
   '?#outlinedButtonTheme': outlinedButtonThemeDataNode,
@@ -160,6 +176,10 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
   ) :
   source == 'ElevatedButtonThemeData' ? ElevatedButtonThemeData(
     style: children['?#style']!.value,
+  ) :
+  source == 'TabBarTheme' ? TabBarTheme(
+    labelColor: children['?#labelColor']!.value,
+    unselectedLabelColor: children['?#unselectedLabelColor']!.value,
   ) :
   source == 'OutlinedButtonThemeData' ? OutlinedButtonThemeData(
     style: children['?#style']!.value,
@@ -236,6 +256,14 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     visualDensity: children['?#visualDensity']!.value,
     enableFeedback: children['?#enableFeedback']!.value,
   ) :
+  source == 'BottomNavigationBarThemeData' ? BottomNavigationBarThemeData(
+    backgroundColor: children['?#backgroundColor']!.value,
+    selectedItemColor: children['?#selectedItemColor']!.value,
+    unselectedItemColor: children['?#unselectedItemColor']!.value,
+    showSelectedLabels: children['?#showSelectedLabels']!.value,
+    showUnselectedLabels: children['?#showUnselectedLabels']!.value,
+    enableFeedback: children['?#enableFeedback']!.value,
+  ) :
   source == 'SliderThemeData' ? SliderThemeData(
     activeTrackColor: children['?#activeTrackColor']!.value,
     inactiveTrackColor: children['?#inactiveTrackColor']!.value,
@@ -283,9 +311,11 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     errorColor: children['?#errorColor']!.value,
     toggleableActiveColor: children['?#toggleableActiveColor']!.value,
     sliderTheme: children['?#sliderTheme']!.value,
+    tabBarTheme: children['?#tabBarTheme']!.value,
     applyElevationOverlayColor: children['?#applyElevationOverlayColor']!.value,
     appBarTheme: children['?#appBarTheme']!.value,
     colorScheme: children['?#colorScheme']!.value,
+    bottomNavigationBarTheme: children['?#bottomNavigationBarTheme']!.value,
     textButtonTheme: children['?#textButtonTheme']!.value,
     elevatedButtonTheme: children['?#elevatedButtonTheme']!.value,
     outlinedButtonTheme: children['?#outlinedButtonTheme']!.value,
