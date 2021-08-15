@@ -24,10 +24,9 @@ void main() async {
     includedPaths: [Directory.current.absolute.path],
   ).contexts.first;
 
-  // <RETURN_TYPE_NAME, <EXECUTABLE_SOURCE, EXECUTABLE_ELEMENT>>
-  final Map<String, Map<String, ExecutableElement>> executableCollection = {};
+  final buffers = <StringBuffer>[];
+  final buildBuffers = <StringBuffer>[];
 
-  // Collect ExecutableElements for each ReturnType to resolve the default SourceNode later.
   for (final filePath in analyzedFilePaths) {
     final result = await context.currentSession.getResolvedLibrary2(filePath);
     if (result is! ResolvedLibraryResult) continue;
@@ -38,49 +37,39 @@ void main() async {
         ...element.methods.where((e) => e.isStatic),
       ];
       for (final executable in executables) {
-        final executableSource = element.name + (executable.name.isEmpty ? '' : '.${executable.name}');
-        if (!sources.contains(executableSource)) continue;
+        final source = element.name + (executable.name.isEmpty ? '' : '.${executable.name}');
+        if (!sources.contains(source)) continue;
+        final nodeName = _buildNodeName(source);
         final returnTypeName = executable.returnType.element!.name!;
-        executableCollection[returnTypeName] ??= {};
-        executableCollection[returnTypeName]![executableSource] = executable;
+        final parameters = executable.parameters
+          .where((e) => !e.hasDeprecated && types.contains(e.type.element!.name!));
+
+        buffers.add(() {
+          final buffer = StringBuffer();
+          buffer.writeln("final $nodeName = SourceNode<$returnTypeName>('$source', Map.unmodifiable({");
+          for (final parameter in parameters) {
+            final identifier = _buildIdentifier(parameter);
+            final typeName = parameter.type.element!.name;
+            buffer.writeln("  '$identifier': SourceNode<$typeName>(),");
+          }
+          buffer.writeln("}));");
+          return buffer;
+        } ());
+
+        buildBuffers.add(() {
+          final buffer = StringBuffer();
+          buffer.writeln("  source == '$source' ? $source(");
+          for (final parameter in parameters) {
+            final identifier = _buildIdentifier(parameter);
+            final label = parameter.isPositional ? '' : '${parameter.name}: ';
+            final defaultValueCode = parameter.hasDefaultValue ? ' ?? ${parameter.defaultValueCode}' : '';
+            buffer.writeln("    ${label}children['$identifier']!.value$defaultValueCode,");
+          }
+          buffer.writeln("  ) :");
+          return buffer;
+        } ());
       }
     }
-  }
-
-  final buffers = <StringBuffer>[];
-  final buildValueBuffers = <StringBuffer>[];
-
-  for (final executableEntry in executableCollection.values.expand((e) => e.entries)) {
-    // executableEntry: <EXECUTABLE_SOURCE, EXECUTABLE_ELEMENT>
-    final source = executableEntry.key;
-    final returnTypeName = executableEntry.value.returnType.element!.name!;
-    final parameters = executableEntry.value.parameters
-      .where((e) => !e.hasDeprecated && types.contains(e.type.element!.name!));
-    final nodeName = _buildNodeName(source);
-
-    final buffer = StringBuffer();
-    buffer.writeln("final $nodeName = SourceNode<$returnTypeName>('$source', Map.unmodifiable({");
-    for (final parameter in parameters) {
-      final identifier = _buildIdentifier(parameter);
-      final parameterTypeName = parameter.type.element!.name!;
-      final valueCode = executableCollection[parameterTypeName]?.length == 1
-        ? _buildNodeName(executableCollection[parameterTypeName]!.keys.first)
-        : 'SourceNode<$parameterTypeName>()';
-      buffer.writeln("  '$identifier': $valueCode,");
-    }
-    buffer.writeln("}));");
-    buffers.add(buffer);
-
-    final buildValueBuffer = StringBuffer();
-    buildValueBuffer.writeln("  source == '$source' ? $source(");
-    for (final parameter in parameters) {
-      final label = parameter.isPositional ? '' : '${parameter.name}: ';
-      final identifier = _buildIdentifier(parameter);
-      final defaultValueCode = parameter.hasDefaultValue? ' ?? ${parameter.defaultValueCode}' : '';
-      buildValueBuffer.writeln("    ${label}children['$identifier']!.value$defaultValueCode,");
-    }
-    buildValueBuffer.writeln("  ) :");
-    buildValueBuffers.add(buildValueBuffer);
   }
 
   final buffer = StringBuffer();
@@ -96,7 +85,7 @@ void main() async {
   buffers.forEach((b) => buffer.writeln(b.toString()));
 
   buffer.writeln("Object? _buildValue(String source, Map<String, SourceNode> children) =>");
-  buildValueBuffers.forEach((b) => buffer.write(b.toString()));
+  buildBuffers.forEach((b) => buffer.write(b.toString()));
   buffer.writeln("  null;");
   buffer.writeln();
 
@@ -107,24 +96,24 @@ void main() async {
   File('lib/source_node.g.dart').writeAsString(buffer.toString());
 }
 
-// **Example Cases**
-// 'ColorScheme' => 'colorSchemeNode'
-// 'ColorScheme.light' => 'colorSchemeLightNode'
-String _buildNodeName(String executableSource) {
+// ColorScheme => colorSchemeNode
+// ColorScheme.light => colorSchemeLightNode
+String _buildNodeName(String source) {
   late String nodeName;
-  final index = executableSource.indexOf('.');
+  final index = source.indexOf('.');
   if (index < 0) {
-    nodeName = executableSource[0].toLowerCase() +
-      executableSource.substring(1);
+    nodeName = source[0].toLowerCase() +
+      source.substring(1);
   } else {
-    final klass = executableSource.substring(0, index);
-    final executable = executableSource.substring(index + 1);
+    final klass = source.substring(0, index);
+    final executable = source.substring(index + 1);
     nodeName = klass[0].toLowerCase() + klass.substring(1) +
       executable[0].toUpperCase() + executable.substring(1);
   }
   return nodeName + 'Node';
 }
 
+// Format: [SYMBOLS]#[NAME]
 String _buildIdentifier(ParameterElement parameter) {
   final symbols =
     (parameter.hasDefaultValue ? '@' : '') +

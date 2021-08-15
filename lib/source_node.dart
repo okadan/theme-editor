@@ -8,7 +8,6 @@ part 'source_node.g.dart';
 
 class SourceNode<T> {
   SourceNode([this.source = '', this.children = const {}]) : value = _value(source, children);
-
   final String source;
 
   final Map<String, SourceNode> children;
@@ -53,12 +52,8 @@ class SourceNode<T> {
           || (!symbols.contains('?') && e.value.source == 'null')
           || (!symbols.contains('?') && !symbols.contains('@') && e.value.value == null);
       })) return '${label}null';
-      if (!children.entries.any((e) {
-        final symbols = e.key.split('#').first;
-        return symbols.contains('@') || e.value.source == 'null' || e.value.value != null;
-      })) return '${label}null';
-      final entries = children.entries.where((e) =>
-        e.value.source == 'null' || e.value.value != null);
+      final entries = children.entries
+        .where((e) => e.value.source.isNotEmpty);
       return '$label$source('
         + entries.map((e) => e.value.buildSource(e.key)).join(',')
         + ')';
@@ -78,10 +73,6 @@ class SourceNode<T> {
           || (!symbols.contains('?') && e.value.source == 'null')
           || (!symbols.contains('?') && !symbols.contains('@') && e.value.value == null);
       })) return null;
-      if (!children.entries.any((e) {
-        final symbols = e.key.split('#').first;
-        return symbols.contains('@') || e.value.source == 'null' || e.value.value != null;
-      })) return null;
       final value = _buildValue(source, children);
       if (value != null) return value;
       throw('unsupported: source=$source children=$children');
@@ -94,27 +85,34 @@ String extractName(String identifier) {
 }
 
 Widget buildEditorField(Iterable<String> path, SourceNode node) {
-  if (node is SourceNode<bool>)
-    return SelectEditorField<bool>(path, node, boolOptions);
   if (node is SourceNode<MaterialColor>)
     return ColorEditorField<MaterialColor>(path, node);
   if (node is SourceNode<Color>)
     return ColorEditorField<Color>(path, node);
-  if (node is SourceNode<ButtonStyle>)
-    return ChildrenEditorField<ButtonStyle>(path, node);
-  if (node is SourceNode<ColorScheme>)
-    return ChildrenEditorField<ColorScheme>(path, node);
+  if (node is SourceNode<bool>)
+    return SelectEditorField<bool>(path, node, boolOptions);
   if (node is SourceNode<Brightness>)
     return SelectEditorField<Brightness>(path, node, brightnessOptions);
   if (node is SourceNode<VisualDensity>)
     return SelectEditorField<VisualDensity>(path, node, visualDensityOptions);
-  if (node.children.length > 1)
-    return ChildrenEditorField(path, node);
-  if (node.children.length == 1)
-    return buildEditorField(
-      path.toList()..last = '${path.last}.${node.children.keys.first}',
-      node.children.values.first,
-    );
+  if (node is SourceNode<ColorScheme>)
+    return ChildrenEditorField<ColorScheme>(path, node);
+  if (node is SourceNode<AppBarTheme>)
+    return ChildrenEditorField<AppBarTheme>(path, node);
+  if (node is SourceNode<TabBarTheme>)
+    return ChildrenEditorField<TabBarTheme>(path, node);
+  if (node is SourceNode<BottomNavigationBarThemeData>)
+    return ChildrenEditorField<BottomNavigationBarThemeData>(path, node);
+  if (node is SourceNode<SliderThemeData>)
+    return ChildrenEditorField<SliderThemeData>(path, node);
+  if (node is SourceNode<ElevatedButtonThemeData>)
+    return ChildrenEditorField<ElevatedButtonThemeData>(path, node);
+  if (node is SourceNode<OutlinedButtonThemeData>)
+    return ChildrenEditorField<OutlinedButtonThemeData>(path, node);
+  if (node is SourceNode<TextButtonThemeData>)
+    return ChildrenEditorField<TextButtonThemeData>(path, node);
+  if (node is SourceNode<ButtonStyle>)
+    return ChildrenEditorField<ButtonStyle>(path, node);
   throw('unsupported: path=$path node=$node');
 }
 
@@ -123,11 +121,23 @@ Widget buildEditor(Iterable<String> path, SourceNode node) {
     return ColorEditor<MaterialColor>(path, node);
   if (node is SourceNode<Color>)
     return ColorEditor<Color>(path, node);
-  if (node is SourceNode<ButtonStyle>)
-    return SelectableChildrenEditor<ButtonStyle>(path, node, buttonStyleExecutableOptions);
   if (node is SourceNode<ColorScheme>)
-    return SelectableChildrenEditor<ColorScheme>(path, node, colorSchemeExecutableOptions);
-  if (node.children.isNotEmpty)
-    return ChildrenEditor(path, node);
+    return SelectableChildrenEditor<ColorScheme>(path, node, colorSchemeOptions);
+  if (node is SourceNode<AppBarTheme>)
+    return SelectableChildrenEditor<AppBarTheme>(path, node, appBarThemeOptions);
+  if (node is SourceNode<TabBarTheme>)
+    return SelectableChildrenEditor<TabBarTheme>(path, node, tabBarThemeOptions);
+  if (node is SourceNode<BottomNavigationBarThemeData>)
+    return SelectableChildrenEditor<BottomNavigationBarThemeData>(path, node, bottomNavigationBarThemeDataOptions);
+  if (node is SourceNode<SliderThemeData>)
+    return SelectableChildrenEditor<SliderThemeData>(path, node, sliderThemeDataOptions);
+  if (node is SourceNode<ElevatedButtonThemeData>)
+    return SelectableChildrenEditor<ElevatedButtonThemeData>(path, node, elevatedButtonThemeDataOptions);
+  if (node is SourceNode<OutlinedButtonThemeData>)
+    return SelectableChildrenEditor<OutlinedButtonThemeData>(path, node, outlinedButtonThemeDataOptions);
+  if (node is SourceNode<TextButtonThemeData>)
+    return SelectableChildrenEditor<TextButtonThemeData>(path, node, textButtonThemeDataOptions);
+  if (node is SourceNode<ButtonStyle>)
+    return SelectableChildrenEditor<ButtonStyle>(path, node, buttonStyleOptions);
   throw('unsupported: path=$path node=$node');
 }

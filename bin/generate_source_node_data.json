@@ -1,35 +1,35 @@
 {
-  "types" : [
+  "types": [
     "bool",
     "Brightness",
-    "MaterialColor",
     "Color",
     "ColorScheme",
+    "MaterialColor",
     "VisualDensity",
+    "AppBarTheme",
+    "TabBarTheme",
+    "BottomNavigationBarThemeData",
+    "SliderThemeData",
     "ElevatedButtonThemeData",
     "OutlinedButtonThemeData",
     "TextButtonThemeData",
-    "ButtonStyle",
-    "AppBarTheme",
-    "BottomNavigationBarThemeData",
-    "TabBarTheme",
-    "SliderThemeData"
+    "ButtonStyle"
   ],
   "sources": [
     "ThemeData",
     "ColorScheme.light",
     "ColorScheme.dark",
     "ColorScheme.fromSwatch",
+    "AppBarTheme",
+    "TabBarTheme",
+    "BottomNavigationBarThemeData",
+    "SliderThemeData",
     "ElevatedButtonThemeData",
     "OutlinedButtonThemeData",
     "TextButtonThemeData",
     "ElevatedButton.styleFrom",
     "OutlinedButton.styleFrom",
-    "TextButton.styleFrom",
-    "AppBarTheme",
-    "BottomNavigationBarThemeData",
-    "TabBarTheme",
-    "SliderThemeData"
+    "TextButton.styleFrom"
   ],
   "options": [
     "true",

@@ -1,5 +1,5 @@
 name: theme_editor
-description: Flutter web app for editing and previewing ThemeData object.
+description: Flutter web app for editing and previewing the ThemeData object.
 publish_to: 'none'
 version: 1.0.0+1
 

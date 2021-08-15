@@ -84,6 +84,15 @@ final textButtonStyleFromNode = SourceNode<ButtonStyle>('TextButton.styleFrom', 
   '?#enableFeedback': SourceNode<bool>(),
 }));
 
+final bottomNavigationBarThemeDataNode = SourceNode<BottomNavigationBarThemeData>('BottomNavigationBarThemeData', Map.unmodifiable({
+  '?#backgroundColor': SourceNode<Color>(),
+  '?#selectedItemColor': SourceNode<Color>(),
+  '?#unselectedItemColor': SourceNode<Color>(),
+  '?#showSelectedLabels': SourceNode<bool>(),
+  '?#showUnselectedLabels': SourceNode<bool>(),
+  '?#enableFeedback': SourceNode<bool>(),
+}));
+
 final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styleFrom', Map.unmodifiable({
   '?#primary': SourceNode<Color>(),
   '?#onPrimary': SourceNode<Color>(),
@@ -99,15 +108,6 @@ final outlinedButtonStyleFromNode = SourceNode<ButtonStyle>('OutlinedButton.styl
   '?#backgroundColor': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
   '?#visualDensity': SourceNode<VisualDensity>(),
-  '?#enableFeedback': SourceNode<bool>(),
-}));
-
-final bottomNavigationBarThemeDataNode = SourceNode<BottomNavigationBarThemeData>('BottomNavigationBarThemeData', Map.unmodifiable({
-  '?#backgroundColor': SourceNode<Color>(),
-  '?#selectedItemColor': SourceNode<Color>(),
-  '?#unselectedItemColor': SourceNode<Color>(),
-  '?#showSelectedLabels': SourceNode<bool>(),
-  '?#showUnselectedLabels': SourceNode<bool>(),
   '?#enableFeedback': SourceNode<bool>(),
 }));
 
@@ -158,15 +158,15 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#hintColor': SourceNode<Color>(),
   '?#errorColor': SourceNode<Color>(),
   '?#toggleableActiveColor': SourceNode<Color>(),
-  '?#sliderTheme': sliderThemeDataNode,
-  '?#tabBarTheme': tabBarThemeNode,
+  '?#sliderTheme': SourceNode<SliderThemeData>(),
+  '?#tabBarTheme': SourceNode<TabBarTheme>(),
   '?#applyElevationOverlayColor': SourceNode<bool>(),
-  '?#appBarTheme': appBarThemeNode,
+  '?#appBarTheme': SourceNode<AppBarTheme>(),
   '?#colorScheme': SourceNode<ColorScheme>(),
-  '?#bottomNavigationBarTheme': bottomNavigationBarThemeDataNode,
-  '?#textButtonTheme': textButtonThemeDataNode,
-  '?#elevatedButtonTheme': elevatedButtonThemeDataNode,
-  '?#outlinedButtonTheme': outlinedButtonThemeDataNode,
+  '?#bottomNavigationBarTheme': SourceNode<BottomNavigationBarThemeData>(),
+  '?#textButtonTheme': SourceNode<TextButtonThemeData>(),
+  '?#elevatedButtonTheme': SourceNode<ElevatedButtonThemeData>(),
+  '?#outlinedButtonTheme': SourceNode<OutlinedButtonThemeData>(),
   '?#fixTextFieldOutlineLabel': SourceNode<bool>(),
 }));
 
@@ -240,6 +240,14 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     visualDensity: children['?#visualDensity']!.value,
     enableFeedback: children['?#enableFeedback']!.value,
   ) :
+  source == 'BottomNavigationBarThemeData' ? BottomNavigationBarThemeData(
+    backgroundColor: children['?#backgroundColor']!.value,
+    selectedItemColor: children['?#selectedItemColor']!.value,
+    unselectedItemColor: children['?#unselectedItemColor']!.value,
+    showSelectedLabels: children['?#showSelectedLabels']!.value,
+    showUnselectedLabels: children['?#showUnselectedLabels']!.value,
+    enableFeedback: children['?#enableFeedback']!.value,
+  ) :
   source == 'ElevatedButton.styleFrom' ? ElevatedButton.styleFrom(
     primary: children['?#primary']!.value,
     onPrimary: children['?#onPrimary']!.value,
@@ -254,14 +262,6 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     backgroundColor: children['?#backgroundColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
     visualDensity: children['?#visualDensity']!.value,
-    enableFeedback: children['?#enableFeedback']!.value,
-  ) :
-  source == 'BottomNavigationBarThemeData' ? BottomNavigationBarThemeData(
-    backgroundColor: children['?#backgroundColor']!.value,
-    selectedItemColor: children['?#selectedItemColor']!.value,
-    unselectedItemColor: children['?#unselectedItemColor']!.value,
-    showSelectedLabels: children['?#showSelectedLabels']!.value,
-    showUnselectedLabels: children['?#showUnselectedLabels']!.value,
     enableFeedback: children['?#enableFeedback']!.value,
   ) :
   source == 'SliderThemeData' ? SliderThemeData(
