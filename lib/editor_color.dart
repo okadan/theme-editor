@@ -13,7 +13,7 @@ class ColorEditorField<T extends Color> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(extractName(path.last)),
+        Text(path.last.split('#').last),
         Expanded(
           child: Row(
             children: [

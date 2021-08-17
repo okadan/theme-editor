@@ -49,7 +49,7 @@ class EditorState extends State<Editor> {
                   if (i.isEven)
                     return TextSpan(text: ' > ');
                   return TextSpan(
-                    text: extractName(path[i ~/ 2]),
+                    text: path[i ~/ 2].split('#').last,
                     style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).accentColor),
                     recognizer: i ~/ 2 + 1 == path.length ? null : (TapGestureRecognizer()
                       ..onTap = () => setState(() => path.removeRange(i ~/ 2 + 1, path.length))),
