@@ -46,11 +46,13 @@ class ColorEditorField<T extends Color> extends StatelessWidget {
 }
 
 class ColorEditor<T extends Color> extends StatelessWidget {
-  ColorEditor(this.path, this.node);
+  ColorEditor(this.path, this.node, this.onChanged);
 
   final Iterable<String> path;
 
   final SourceNode<T> node;
+
+  final ValueChanged<SourceNode<T>> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class ColorEditor<T extends Color> extends StatelessWidget {
               if (node.value != null)
                 InkWell(
                   child: Icon(Icons.clear, size: 14),
-                  onTap: () => Editor.of(context).onChanged<T>(path, SourceNode<T>()),
+                  onTap: () => onChanged(SourceNode<T>()),
                 ),
             ],
           ),
@@ -86,7 +88,7 @@ class ColorEditor<T extends Color> extends StatelessWidget {
                   return _ColorTile<MaterialColor>(
                     e,
                     e == node,
-                    (value) => Editor.of(context).onChanged<MaterialColor>(path, value),
+                    (value) => onChanged(value as SourceNode<T>),
                   );
                 })
               else if (node is SourceNode<Color>)
@@ -97,7 +99,7 @@ class ColorEditor<T extends Color> extends StatelessWidget {
                   return _ColorTile<Color>(
                     o,
                     o == node,
-                    (value) => Editor.of(context).onChanged<Color>(path, value),
+                    (value) => onChanged(value as SourceNode<T>),
                   );
                 })),
             ],

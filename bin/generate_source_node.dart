@@ -5,6 +5,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 void main() async {
   final packageConfig = jsonDecode(File('.dart_tool/package_config.json').readAsStringSync());
@@ -15,9 +16,8 @@ void main() async {
   ).contexts.map((e) => e.contextRoot.analyzedFiles()).expand((e) => e);
 
   final inputData = jsonDecode(File('bin/generate_source_node_data.json').readAsStringSync());
-  final types = List<String>.from(inputData['types']);
-  final sources = List<String>.from(inputData['sources']);
-  final klasses = sources.map((e) => e.split('.').first).toList();
+  final typeNames = List<String>.from(inputData['typeNames']);
+  final executableNames = List<String>.from(inputData['executableNames']);
   final options = List<String>.from(inputData['options']);
 
   final context = AnalysisContextCollection(
@@ -31,25 +31,25 @@ void main() async {
     final result = await context.currentSession.getResolvedLibrary2(filePath);
     if (result is! ResolvedLibraryResult) continue;
     for (final element in result.element!.topLevelElements) {
-      if (element is! ClassElement || !klasses.contains(element.name)) continue;
+      if (element is! ClassElement || element.isPrivate) continue;
       final executables = <ExecutableElement>[
         ...element.constructors,
         ...element.methods.where((e) => e.isStatic),
-      ];
+      ].where((e) => e.isPublic);
       for (final executable in executables) {
-        final source = element.name + (executable.name.isEmpty ? '' : '.${executable.name}');
-        if (!sources.contains(source)) continue;
-        final nodeName = _buildNodeName(source);
-        final returnTypeName = executable.returnType.element!.name!;
-        final parameters = executable.parameters
-          .where((e) => !e.hasDeprecated && types.contains(e.type.element!.name!));
+        final executableName = element.name + (executable.name.isEmpty ? '' : '.${executable.name}');
+        if (!executableNames.contains(executableName)) continue;
+        final nodeName = _buildNodeName(executableName);
+        final returnTypeName = _buildTypeName(executable.returnType);
+        final parameters = executable.parameters.where((e) => !e.hasDeprecated);
 
         buffers.add(() {
           final buffer = StringBuffer();
-          buffer.writeln("final $nodeName = SourceNode<$returnTypeName>('$source', Map.unmodifiable({");
+          buffer.writeln("final $nodeName = SourceNode<$returnTypeName>('$executableName', Map.unmodifiable({");
           for (final parameter in parameters) {
+            final typeName = _buildTypeName(parameter.type);
+            if (!typeNames.contains(typeName)) continue;
             final identifier = _buildIdentifier(parameter);
-            final typeName = parameter.type.element!.name;
             buffer.writeln("  '$identifier': SourceNode<$typeName>(),");
           }
           buffer.writeln("}));");
@@ -58,8 +58,10 @@ void main() async {
 
         buildBuffers.add(() {
           final buffer = StringBuffer();
-          buffer.writeln("  source == '$source' ? $source(");
+          buffer.writeln("  source == '$executableName' ? $executableName(");
           for (final parameter in parameters) {
+            final typeName = _buildTypeName(parameter.type);
+            if (!typeNames.contains(typeName)) continue;
             final identifier = _buildIdentifier(parameter);
             final label = parameter.isPositional ? '' : '${parameter.name}: ';
             final defaultValueCode = parameter.hasDefaultValue ? ' ?? ${parameter.defaultValueCode}' : '';
@@ -89,36 +91,42 @@ void main() async {
   buffer.writeln("  null;");
   buffer.writeln();
 
-  buffer.writeln("final Map<String, Object> _sourceValues = Map.unmodifiable({");
+  buffer.writeln("final _sourceValues = Map<String, dynamic>.unmodifiable({");
   options.forEach((e) => buffer.writeln("  '$e': $e,"));
   buffer.writeln("});");
 
   File('lib/source_node.g.dart').writeAsString(buffer.toString());
 }
 
-// ColorScheme => colorSchemeNode
-// ColorScheme.light => colorSchemeLightNode
-String _buildNodeName(String source) {
+String _buildNodeName(String executableName) {
   late String nodeName;
-  final index = source.indexOf('.');
+  final index = executableName.indexOf('.');
   if (index < 0) {
-    nodeName = source[0].toLowerCase() +
-      source.substring(1);
+    nodeName = executableName[0].toLowerCase() +
+      executableName.substring(1);
   } else {
-    final klass = source.substring(0, index);
-    final executable = source.substring(index + 1);
+    final klass = executableName.substring(0, index);
+    final executable = executableName.substring(index + 1);
     nodeName = klass[0].toLowerCase() + klass.substring(1) +
       executable[0].toUpperCase() + executable.substring(1);
   }
   return nodeName + 'Node';
 }
 
-// Format: [SYMBOLS]#[NAME]
 String _buildIdentifier(ParameterElement parameter) {
-  final symbols =
+  return (
     (parameter.hasDefaultValue ? '@' : '') +
     (parameter.isPositional ? '_' : '') +
     (parameter.isOptional ? '?' : '') +
-    (parameter.type.nullabilitySuffix == NullabilitySuffix.none ? '!' : '');
-  return '$symbols#${parameter.name}';
+    (parameter.type.nullabilitySuffix == NullabilitySuffix.none ? '!' : '')
+  ) + '#${parameter.name}';
+}
+
+String _buildTypeName(DartType type) {
+  if (type is ParameterizedType) {
+    final arguments = type.typeArguments.map(_buildTypeName).join(', ');
+    return type.element!.name! + (arguments.isEmpty ? '' : '<$arguments>');
+  } else {
+    return type.element!.name!;
+  }
 }

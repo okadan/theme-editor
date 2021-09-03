@@ -1,35 +1,43 @@
 {
-  "types": [
+  "typeNames": [
     "bool",
     "Brightness",
     "Color",
     "ColorScheme",
     "MaterialColor",
+    "MaterialStateProperty<Color>",
+    "ElevatedButtonThemeData",
+    "OutlinedButtonThemeData",
+    "TextButtonThemeData",
+    "ButtonStyle",
     "VisualDensity",
     "AppBarTheme",
     "TabBarTheme",
     "BottomNavigationBarThemeData",
-    "SliderThemeData",
-    "ElevatedButtonThemeData",
-    "OutlinedButtonThemeData",
-    "TextButtonThemeData",
-    "ButtonStyle"
+    "CheckboxThemeData",
+    "RadioThemeData",
+    "SwitchThemeData",
+    "SliderThemeData"
   ],
-  "sources": [
+  "executableNames": [
     "ThemeData",
     "ColorScheme.light",
     "ColorScheme.dark",
     "ColorScheme.fromSwatch",
-    "AppBarTheme",
-    "TabBarTheme",
-    "BottomNavigationBarThemeData",
-    "SliderThemeData",
     "ElevatedButtonThemeData",
     "OutlinedButtonThemeData",
     "TextButtonThemeData",
     "ElevatedButton.styleFrom",
     "OutlinedButton.styleFrom",
-    "TextButton.styleFrom"
+    "TextButton.styleFrom",
+    "AppBarTheme",
+    "TabBarTheme",
+    "BottomNavigationBarThemeData",
+    "CheckboxThemeData",
+    "RadioThemeData",
+    "SwitchThemeData",
+    "SliderThemeData",
+    "ButtonStyle"
   ],
   "options": [
     "true",

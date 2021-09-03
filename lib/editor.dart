@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_editor/editor_children.dart';
 import 'package:theme_editor/source_node.dart';
+import 'package:theme_editor/source_node_widget.dart';
 
 class Editor extends StatefulWidget {
   Editor(Key key, this.node, this.onChanged) : super(key: key);
@@ -28,70 +29,73 @@ class EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          constraints: BoxConstraints(minHeight: 26),
-          decoration: BoxDecoration(color: Theme.of(context).hoverColor),
-          padding: EdgeInsets.all(4),
-          child: RichText(
-            text: TextSpan(
-              style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
-              children: [
-                TextSpan(
-                  text: widget.node.source,
-                  style: path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
-                  recognizer: path.isEmpty ? null : (TapGestureRecognizer()
-                    ..onTap = () => setState(() => path.clear())),
-                ),
-                ...List.generate(path.length * 2, (i) {
-                  if (i.isEven)
-                    return TextSpan(text: ' > ');
-                  return TextSpan(
-                    text: path[i ~/ 2].split('#').last,
-                    style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).accentColor),
-                    recognizer: i ~/ 2 + 1 == path.length ? null : (TapGestureRecognizer()
-                      ..onTap = () => setState(() => path.removeRange(i ~/ 2 + 1, path.length))),
-                  );
-                }),
-              ],
+    return Builder(
+      builder: (context) => Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            constraints: BoxConstraints(minHeight: 26),
+            decoration: BoxDecoration(color: Theme.of(context).hoverColor),
+            padding: EdgeInsets.all(4),
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
+                children: [
+                  TextSpan(
+                    text: widget.node.source,
+                    style: path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
+                    recognizer: path.isEmpty ? null : (TapGestureRecognizer()
+                      ..onTap = () => setState(() => path.clear())),
+                  ),
+                  ...List.generate(path.length * 2, (i) {
+                    if (i.isEven)
+                      return TextSpan(text: ' > ');
+                    return TextSpan(
+                      text: path[i ~/ 2].split('#').last,
+                      style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).accentColor),
+                      recognizer: i ~/ 2 + 1 == path.length ? null : (TapGestureRecognizer()
+                        ..onTap = () => setState(() => path.removeRange(i ~/ 2 + 1, path.length))),
+                    );
+                  }),
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: ClipRect(
-            child: Navigator(
-              transitionDelegate: _NoAnimationTransitionDelegate(),
-              pages: [
-                MaterialPage(
-                  child: Padding(
-                    padding: EdgeInsets.all(4),
-                    child: ChildrenEditor<ThemeData>([], widget.node),
-                  ),
-                ),
-                ...List.generate(path.length, (i) {
-                  final subpath = path.sublist(0, i + 1);
-                  return MaterialPage(
+          Expanded(
+            child: ClipRect(
+              child: Navigator(
+                transitionDelegate: _NoAnimationTransitionDelegate(),
+                pages: [
+                  MaterialPage(
                     child: Padding(
                       padding: EdgeInsets.all(4),
-                      child: buildEditor(
-                        subpath,
-                        subpath.join('.').split('.').fold(widget.node, (p, e) => p.children[e]!)),
-                      ),
-                    );
-                }),
-              ],
-              onPopPage: (route, result) {
-                if (!route.didPop(result))
-                  return false;
-                setState(() => path.removeLast());
-                return true;
-              },
+                      child: ChildrenEditor<ThemeData>([], widget.node),
+                    ),
+                  ),
+                  ...List.generate(path.length, (i) {
+                    final subpath = path.sublist(0, i + 1);
+                    return MaterialPage(
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: buildEditor(
+                          context,
+                          subpath,
+                          subpath.fold(widget.node, (p, e) => p.children[e]!)),
+                        ),
+                      );
+                  }),
+                ],
+                onPopPage: (route, result) {
+                  if (!route.didPop(result))
+                    return false;
+                  setState(() => path.removeLast());
+                  return true;
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/source_node.dart';
+import 'package:theme_editor/source_node_widget.dart';
 
 class ChildrenEditorField<T> extends StatelessWidget {
   ChildrenEditorField(this.path, this.node);
@@ -51,7 +52,7 @@ class ChildrenEditor<T> extends StatelessWidget {
     return ListView(
       children: node.children.entries.map((e) => ConstrainedBox(
         constraints: BoxConstraints(minHeight: 26),
-        child: buildEditorField([...path, e.key], e.value),
+        child: buildEditorField(context, [...path, e.key], e.value),
       )).toList(),
     );
   }

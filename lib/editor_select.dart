@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/editor_children.dart';
 import 'package:theme_editor/source_node.dart';
 
 class SelectEditorField<T> extends StatelessWidget {
-  SelectEditorField(this.path, this.node, this.options);
+  SelectEditorField(this.path, this.node, this.onChanged, this.options);
 
   final Iterable<String> path;
 
   final SourceNode<T> node;
+
+  final ValueChanged<SourceNode<T>> onChanged;
 
   final Iterable<SourceNode<T>> options;
 
@@ -40,7 +41,7 @@ class SelectEditorField<T> extends StatelessWidget {
                 )).toList(),
                 onSelected: (value) => value == node
                   ? null
-                  : Editor.of(context).onChanged<T>(path, value),
+                  : onChanged(value),
               )),
             ],
           ),
@@ -51,11 +52,13 @@ class SelectEditorField<T> extends StatelessWidget {
 }
 
 class SelectableChildrenEditor<T> extends StatefulWidget {
-  SelectableChildrenEditor(this.path, this.node, this.options);
+  SelectableChildrenEditor(this.path, this.node, this.onChanged, this.options);
 
   final Iterable<String> path;
 
   final SourceNode<T> node;
+
+  final ValueChanged<SourceNode<T>> onChanged;
 
   final Iterable<SourceNode<T>> options;
 
@@ -110,7 +113,7 @@ class _SelectableChildrenEditorState<T> extends State<SelectableChildrenEditor<T
                     )).toList(),
                     onSelected: (value) => value == widget.node
                       ? null
-                      : Editor.of(context).onChanged<T>(widget.path, value),
+                      : widget.onChanged(value),
                   )),
                 ],
               ),
@@ -188,7 +191,23 @@ final Iterable<SourceNode<TextButtonThemeData>> textButtonThemeDataOptions = [
 
 final Iterable<SourceNode<ButtonStyle>> buttonStyleOptions = [
   SourceNode(),
+  buttonStyleNode,
   elevatedButtonStyleFromNode,
   outlinedButtonStyleFromNode,
   textButtonStyleFromNode,
+];
+
+final Iterable<SourceNode<CheckboxThemeData>> checkboxThemeDataOptions = [
+  SourceNode(),
+  checkboxThemeDataNode,
+];
+
+final Iterable<SourceNode<RadioThemeData>> radioThemeDataOptions = [
+  SourceNode(),
+  radioThemeDataNode,
+];
+
+final Iterable<SourceNode<SwitchThemeData>> switchThemeDataOptions = [
+  SourceNode(),
+  switchThemeDataNode,
 ];

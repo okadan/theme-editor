@@ -14,6 +14,12 @@ final elevatedButtonThemeDataNode = SourceNode<ElevatedButtonThemeData>('Elevate
   '?#style': SourceNode<ButtonStyle>(),
 }));
 
+final switchThemeDataNode = SourceNode<SwitchThemeData>('SwitchThemeData', Map.unmodifiable({
+  '?#thumbColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#trackColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#overlayColor': SourceNode<MaterialStateProperty<Color>>(),
+}));
+
 final tabBarThemeNode = SourceNode<TabBarTheme>('TabBarTheme', Map.unmodifiable({
   '?#labelColor': SourceNode<Color>(),
   '?#unselectedLabelColor': SourceNode<Color>(),
@@ -84,6 +90,12 @@ final textButtonStyleFromNode = SourceNode<ButtonStyle>('TextButton.styleFrom', 
   '?#enableFeedback': SourceNode<bool>(),
 }));
 
+final radioThemeDataNode = SourceNode<RadioThemeData>('RadioThemeData', Map.unmodifiable({
+  '?#fillColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#overlayColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
+}));
+
 final bottomNavigationBarThemeDataNode = SourceNode<BottomNavigationBarThemeData>('BottomNavigationBarThemeData', Map.unmodifiable({
   '?#backgroundColor': SourceNode<Color>(),
   '?#selectedItemColor': SourceNode<Color>(),
@@ -91,6 +103,13 @@ final bottomNavigationBarThemeDataNode = SourceNode<BottomNavigationBarThemeData
   '?#showSelectedLabels': SourceNode<bool>(),
   '?#showUnselectedLabels': SourceNode<bool>(),
   '?#enableFeedback': SourceNode<bool>(),
+}));
+
+final checkboxThemeDataNode = SourceNode<CheckboxThemeData>('CheckboxThemeData', Map.unmodifiable({
+  '?#fillColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#checkColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#overlayColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
 }));
 
 final elevatedButtonStyleFromNode = SourceNode<ButtonStyle>('ElevatedButton.styleFrom', Map.unmodifiable({
@@ -167,7 +186,19 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#textButtonTheme': SourceNode<TextButtonThemeData>(),
   '?#elevatedButtonTheme': SourceNode<ElevatedButtonThemeData>(),
   '?#outlinedButtonTheme': SourceNode<OutlinedButtonThemeData>(),
+  '?#checkboxTheme': SourceNode<CheckboxThemeData>(),
+  '?#radioTheme': SourceNode<RadioThemeData>(),
+  '?#switchTheme': SourceNode<SwitchThemeData>(),
   '?#fixTextFieldOutlineLabel': SourceNode<bool>(),
+}));
+
+final buttonStyleNode = SourceNode<ButtonStyle>('ButtonStyle', Map.unmodifiable({
+  '?#backgroundColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#foregroundColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#overlayColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#shadowColor': SourceNode<MaterialStateProperty<Color>>(),
+  '?#visualDensity': SourceNode<VisualDensity>(),
+  '?#enableFeedback': SourceNode<bool>(),
 }));
 
 Object? _buildValue(String source, Map<String, SourceNode> children) =>
@@ -176,6 +207,11 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
   ) :
   source == 'ElevatedButtonThemeData' ? ElevatedButtonThemeData(
     style: children['?#style']!.value,
+  ) :
+  source == 'SwitchThemeData' ? SwitchThemeData(
+    thumbColor: children['?#thumbColor']!.value,
+    trackColor: children['?#trackColor']!.value,
+    overlayColor: children['?#overlayColor']!.value,
   ) :
   source == 'TabBarTheme' ? TabBarTheme(
     labelColor: children['?#labelColor']!.value,
@@ -240,6 +276,11 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     visualDensity: children['?#visualDensity']!.value,
     enableFeedback: children['?#enableFeedback']!.value,
   ) :
+  source == 'RadioThemeData' ? RadioThemeData(
+    fillColor: children['?#fillColor']!.value,
+    overlayColor: children['?#overlayColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
+  ) :
   source == 'BottomNavigationBarThemeData' ? BottomNavigationBarThemeData(
     backgroundColor: children['?#backgroundColor']!.value,
     selectedItemColor: children['?#selectedItemColor']!.value,
@@ -247,6 +288,12 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     showSelectedLabels: children['?#showSelectedLabels']!.value,
     showUnselectedLabels: children['?#showUnselectedLabels']!.value,
     enableFeedback: children['?#enableFeedback']!.value,
+  ) :
+  source == 'CheckboxThemeData' ? CheckboxThemeData(
+    fillColor: children['?#fillColor']!.value,
+    checkColor: children['?#checkColor']!.value,
+    overlayColor: children['?#overlayColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
   ) :
   source == 'ElevatedButton.styleFrom' ? ElevatedButton.styleFrom(
     primary: children['?#primary']!.value,
@@ -319,11 +366,22 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     textButtonTheme: children['?#textButtonTheme']!.value,
     elevatedButtonTheme: children['?#elevatedButtonTheme']!.value,
     outlinedButtonTheme: children['?#outlinedButtonTheme']!.value,
+    checkboxTheme: children['?#checkboxTheme']!.value,
+    radioTheme: children['?#radioTheme']!.value,
+    switchTheme: children['?#switchTheme']!.value,
     fixTextFieldOutlineLabel: children['?#fixTextFieldOutlineLabel']!.value,
+  ) :
+  source == 'ButtonStyle' ? ButtonStyle(
+    backgroundColor: children['?#backgroundColor']!.value,
+    foregroundColor: children['?#foregroundColor']!.value,
+    overlayColor: children['?#overlayColor']!.value,
+    shadowColor: children['?#shadowColor']!.value,
+    visualDensity: children['?#visualDensity']!.value,
+    enableFeedback: children['?#enableFeedback']!.value,
   ) :
   null;
 
-final Map<String, Object> _sourceValues = Map.unmodifiable({
+final _sourceValues = Map<String, dynamic>.unmodifiable({
   'true': true,
   'false': false,
   'Brightness.light': Brightness.light,
