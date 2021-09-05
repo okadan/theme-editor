@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:theme_editor/constants.dart' as constants;
 import 'package:theme_editor/editor.dart';
 import 'package:theme_editor/preview.dart';
 import 'package:theme_editor/source_node.dart';
@@ -12,7 +13,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Theme Editor',
+      title: constants.title,
       home: _Home(),
       // todo: define color schemes.
       // theme: ThemeData(colorScheme: ColorScheme.light()),
@@ -35,7 +36,7 @@ class _HomeState extends State<_Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Theme Editor'),
+        title: Text(constants.title),
         actions: [
           TextButton(
             style: TextButton.styleFrom(minimumSize: Size.fromWidth(85)),
@@ -59,7 +60,7 @@ class _HomeState extends State<_Home> {
               Text('GITHUB '),
               Icon(Icons.open_in_new, size: 16),
             ]),
-            onPressed: () => html.window.open('https://github.com/okadan/theme-editor', 'new'),
+            onPressed: () => html.window.open(constants.repoUrl, 'new'),
           ),
         ],
       ),
