@@ -28,9 +28,9 @@ void main() async {
   final buildBuffers = <StringBuffer>[];
 
   for (final filePath in analyzedFilePaths) {
-    final result = await context.currentSession.getResolvedLibrary2(filePath);
+    final result = await context.currentSession.getResolvedLibrary(filePath);
     if (result is! ResolvedLibraryResult) continue;
-    for (final element in result.element!.topLevelElements) {
+    for (final element in result.element.topLevelElements) {
       if (element is! ClassElement || element.isPrivate) continue;
       final executables = <ExecutableElement>[
         ...element.constructors,
@@ -40,14 +40,14 @@ void main() async {
         final executableName = element.name + (executable.name.isEmpty ? '' : '.${executable.name}');
         if (!executableNames.contains(executableName)) continue;
         final nodeName = _buildNodeName(executableName);
-        final returnTypeName = _buildTypeName(executable.returnType);
+        final returnTypeName = executable.returnType.getDisplayString(withNullability: false);
         final parameters = executable.parameters.where((e) => !e.hasDeprecated);
 
         buffers.add(() {
           final buffer = StringBuffer();
           buffer.writeln("final $nodeName = SourceNode<$returnTypeName>('$executableName', Map.unmodifiable({");
           for (final parameter in parameters) {
-            final typeName = _buildTypeName(parameter.type);
+            final typeName = parameter.type.getDisplayString(withNullability: false);
             if (!typeNames.contains(typeName)) continue;
             final identifier = _buildIdentifier(parameter);
             buffer.writeln("  '$identifier': SourceNode<$typeName>(),");
@@ -60,7 +60,7 @@ void main() async {
           final buffer = StringBuffer();
           buffer.writeln("  source == '$executableName' ? $executableName(");
           for (final parameter in parameters) {
-            final typeName = _buildTypeName(parameter.type);
+            final typeName = parameter.type.getDisplayString(withNullability: false);
             if (!typeNames.contains(typeName)) continue;
             final identifier = _buildIdentifier(parameter);
             final label = parameter.isPositional ? '' : '${parameter.name}: ';
@@ -120,13 +120,4 @@ String _buildIdentifier(ParameterElement parameter) {
     (parameter.isOptional ? '?' : '') +
     (parameter.type.nullabilitySuffix == NullabilitySuffix.none ? '!' : '')
   ) + '#${parameter.name}';
-}
-
-String _buildTypeName(DartType type) {
-  if (type is ParameterizedType) {
-    final arguments = type.typeArguments.map(_buildTypeName).join(', ');
-    return type.element!.name! + (arguments.isEmpty ? '' : '<$arguments>');
-  } else {
-    return type.element!.name!;
-  }
 }

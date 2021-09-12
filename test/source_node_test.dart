@@ -12,24 +12,24 @@ void main() {
 
     test('update child', () {
       final node = themeDataNode
-        .updateDescendant('?#brightness', SourceNode<Brightness>('Brightness.dark'));
-      expect(node.value, ThemeData(brightness: Brightness.dark));
-      expect(node.buildSource(), 'ThemeData(brightness:Brightness.dark)');
+        .updateDescendant('?#primaryColor', SourceNode<Color>('Colors.red'));
+      expect(node.value, ThemeData(primaryColor: Colors.red));
+      expect(node.buildSource(), 'ThemeData(primaryColor:Colors.red)');
     });
 
     test('update child with explicit null', () {
       final node = themeDataNode
-        .updateDescendant('?#brightness', SourceNode<Brightness>('null'));
+        .updateDescendant('?#primaryColor', SourceNode<Color>('null'));
       expect(node.value, ThemeData(brightness: null));
-      expect(node.buildSource(), 'ThemeData(brightness:null)');
+      expect(node.buildSource(), 'ThemeData(primaryColor:null)');
     });
 
     test('update multi child', () {
       final node = themeDataNode
-        .updateDescendant('?#brightness', SourceNode<Brightness>('Brightness.dark'))
-        .updateDescendant('?#primaryColorBrightness', SourceNode<Brightness>('Brightness.dark'));
-      expect(node.value, ThemeData(brightness: Brightness.dark, primaryColorBrightness: Brightness.dark));
-      expect(node.buildSource(), 'ThemeData(brightness:Brightness.dark,primaryColorBrightness:Brightness.dark)');
+        .updateDescendant('?#primaryColor', SourceNode<Color>('Colors.red'))
+        .updateDescendant('?#primaryColorLight', SourceNode<Color>('Colors.red'));
+      expect(node.value, ThemeData(primaryColor: Colors.red, primaryColorLight: Colors.red));
+      expect(node.buildSource(), 'ThemeData(primaryColor:Colors.red,primaryColorLight:Colors.red)');
     });
 
     test('update complex child', () {
@@ -42,17 +42,17 @@ void main() {
     test('update complex nested child', () {
       final node = themeDataNode
         .updateDescendant('?#appBarTheme', appBarThemeNode)
-        .updateDescendant('?#appBarTheme.?#brightness', SourceNode<Brightness>('Brightness.dark'));
-      expect(node.value, ThemeData(appBarTheme: AppBarTheme(brightness: Brightness.dark)));
-      expect(node.buildSource(), 'ThemeData(appBarTheme:AppBarTheme(brightness:Brightness.dark))');
+        .updateDescendant('?#appBarTheme.?#color', SourceNode<Color>('Colors.red'));
+      expect(node.value, ThemeData(appBarTheme: AppBarTheme(color: Colors.red)));
+      expect(node.buildSource(), 'ThemeData(appBarTheme:AppBarTheme(color:Colors.red))');
     });
 
     test('update complex nested child with explicit null', () {
       final node = themeDataNode
         .updateDescendant('?#appBarTheme', appBarThemeNode)
-        .updateDescendant('?#appBarTheme.?#brightness', SourceNode<Brightness>('null'));
-      expect(node.value, ThemeData(appBarTheme: AppBarTheme(brightness: null)));
-      expect(node.buildSource(), 'ThemeData(appBarTheme:AppBarTheme(brightness:null))');
+        .updateDescendant('?#appBarTheme.?#color', SourceNode<Color>('null'));
+      expect(node.value, ThemeData(appBarTheme: AppBarTheme(color: null)));
+      expect(node.buildSource(), 'ThemeData(appBarTheme:AppBarTheme(color:null))');
     });
   });
 }

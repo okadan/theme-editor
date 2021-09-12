@@ -30,13 +30,11 @@ final outlinedButtonThemeDataNode = SourceNode<OutlinedButtonThemeData>('Outline
 }));
 
 final appBarThemeNode = SourceNode<AppBarTheme>('AppBarTheme', Map.unmodifiable({
-  '?#brightness': SourceNode<Brightness>(),
   '?#color': SourceNode<Color>(),
   '?#backgroundColor': SourceNode<Color>(),
   '?#foregroundColor': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
   '?#centerTitle': SourceNode<bool>(),
-  '?#backwardsCompatibility': SourceNode<bool>(),
 }));
 
 final colorSchemeLightNode = SourceNode<ColorScheme>('ColorScheme.light', Map.unmodifiable({
@@ -154,8 +152,6 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#primaryColorBrightness': SourceNode<Brightness>(),
   '?#primaryColorLight': SourceNode<Color>(),
   '?#primaryColorDark': SourceNode<Color>(),
-  '?#accentColor': SourceNode<Color>(),
-  '?#accentColorBrightness': SourceNode<Brightness>(),
   '?#canvasColor': SourceNode<Color>(),
   '?#shadowColor': SourceNode<Color>(),
   '?#scaffoldBackgroundColor': SourceNode<Color>(),
@@ -169,7 +165,6 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#selectedRowColor': SourceNode<Color>(),
   '?#unselectedWidgetColor': SourceNode<Color>(),
   '?#disabledColor': SourceNode<Color>(),
-  '?#buttonColor': SourceNode<Color>(),
   '?#secondaryHeaderColor': SourceNode<Color>(),
   '?#backgroundColor': SourceNode<Color>(),
   '?#dialogBackgroundColor': SourceNode<Color>(),
@@ -189,7 +184,6 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#checkboxTheme': SourceNode<CheckboxThemeData>(),
   '?#radioTheme': SourceNode<RadioThemeData>(),
   '?#switchTheme': SourceNode<SwitchThemeData>(),
-  '?#fixTextFieldOutlineLabel': SourceNode<bool>(),
 }));
 
 final buttonStyleNode = SourceNode<ButtonStyle>('ButtonStyle', Map.unmodifiable({
@@ -221,13 +215,11 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     style: children['?#style']!.value,
   ) :
   source == 'AppBarTheme' ? AppBarTheme(
-    brightness: children['?#brightness']!.value,
     color: children['?#color']!.value,
     backgroundColor: children['?#backgroundColor']!.value,
     foregroundColor: children['?#foregroundColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
     centerTitle: children['?#centerTitle']!.value,
-    backwardsCompatibility: children['?#backwardsCompatibility']!.value,
   ) :
   source == 'ColorScheme.light' ? ColorScheme.light(
     primary: children['@?!#primary']!.value ?? const Color(0xff6200ee),
@@ -334,8 +326,6 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     primaryColorBrightness: children['?#primaryColorBrightness']!.value,
     primaryColorLight: children['?#primaryColorLight']!.value,
     primaryColorDark: children['?#primaryColorDark']!.value,
-    accentColor: children['?#accentColor']!.value,
-    accentColorBrightness: children['?#accentColorBrightness']!.value,
     canvasColor: children['?#canvasColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
     scaffoldBackgroundColor: children['?#scaffoldBackgroundColor']!.value,
@@ -349,7 +339,6 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     selectedRowColor: children['?#selectedRowColor']!.value,
     unselectedWidgetColor: children['?#unselectedWidgetColor']!.value,
     disabledColor: children['?#disabledColor']!.value,
-    buttonColor: children['?#buttonColor']!.value,
     secondaryHeaderColor: children['?#secondaryHeaderColor']!.value,
     backgroundColor: children['?#backgroundColor']!.value,
     dialogBackgroundColor: children['?#dialogBackgroundColor']!.value,
@@ -369,7 +358,6 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     checkboxTheme: children['?#checkboxTheme']!.value,
     radioTheme: children['?#radioTheme']!.value,
     switchTheme: children['?#switchTheme']!.value,
-    fixTextFieldOutlineLabel: children['?#fixTextFieldOutlineLabel']!.value,
   ) :
   source == 'ButtonStyle' ? ButtonStyle(
     backgroundColor: children['?#backgroundColor']!.value,
