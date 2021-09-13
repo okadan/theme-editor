@@ -29,7 +29,7 @@ class ChildrenEditorField<T> extends StatelessWidget {
                 ),
               ),
               InkWell(
-                child: Text('Edit', style: TextStyle(color: Theme.of(context).accentColor)),
+                child: Text('Edit', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
                 onTap: () => Editor.of(context).push(path.last),
               ),
             ],

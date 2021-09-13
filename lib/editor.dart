@@ -43,7 +43,7 @@ class EditorState extends State<Editor> {
                 children: [
                   TextSpan(
                     text: widget.node.source,
-                    style: path.isEmpty ? null : TextStyle(color: Theme.of(context).accentColor),
+                    style: path.isEmpty ? null : TextStyle(color: Theme.of(context).colorScheme.secondary),
                     recognizer: path.isEmpty ? null : (TapGestureRecognizer()
                       ..onTap = () => setState(() => path.clear())),
                   ),
@@ -52,7 +52,7 @@ class EditorState extends State<Editor> {
                       return TextSpan(text: ' > ');
                     return TextSpan(
                       text: path[i ~/ 2].split('#').last,
-                      style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).accentColor),
+                      style: i ~/ 2 + 1 == path.length ? null : TextStyle(color: Theme.of(context).colorScheme.secondary),
                       recognizer: i ~/ 2 + 1 == path.length ? null : (TapGestureRecognizer()
                         ..onTap = () => setState(() => path.removeRange(i ~/ 2 + 1, path.length))),
                     );
