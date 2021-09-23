@@ -37,6 +37,16 @@ final appBarThemeNode = SourceNode<AppBarTheme>('AppBarTheme', Map.unmodifiable(
   '?#centerTitle': SourceNode<bool>(),
 }));
 
+final inputDecorationThemeNode = SourceNode<InputDecorationTheme>('InputDecorationTheme', Map.unmodifiable({
+  '@?!#isDense': SourceNode<bool>(),
+  '@?!#isCollapsed': SourceNode<bool>(),
+  '@?!#filled': SourceNode<bool>(),
+  '?#fillColor': SourceNode<Color>(),
+  '?#focusColor': SourceNode<Color>(),
+  '?#hoverColor': SourceNode<Color>(),
+  '@?!#alignLabelWithHint': SourceNode<bool>(),
+}));
+
 final colorSchemeLightNode = SourceNode<ColorScheme>('ColorScheme.light', Map.unmodifiable({
   '@?!#primary': SourceNode<Color>(),
   '@?!#primaryVariant': SourceNode<Color>(),
@@ -172,6 +182,7 @@ final themeDataNode = SourceNode<ThemeData>('ThemeData', Map.unmodifiable({
   '?#hintColor': SourceNode<Color>(),
   '?#errorColor': SourceNode<Color>(),
   '?#toggleableActiveColor': SourceNode<Color>(),
+  '?#inputDecorationTheme': SourceNode<InputDecorationTheme>(),
   '?#sliderTheme': SourceNode<SliderThemeData>(),
   '?#tabBarTheme': SourceNode<TabBarTheme>(),
   '?#applyElevationOverlayColor': SourceNode<bool>(),
@@ -220,6 +231,15 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     foregroundColor: children['?#foregroundColor']!.value,
     shadowColor: children['?#shadowColor']!.value,
     centerTitle: children['?#centerTitle']!.value,
+  ) :
+  source == 'InputDecorationTheme' ? InputDecorationTheme(
+    isDense: children['@?!#isDense']!.value ?? false,
+    isCollapsed: children['@?!#isCollapsed']!.value ?? false,
+    filled: children['@?!#filled']!.value ?? false,
+    fillColor: children['?#fillColor']!.value,
+    focusColor: children['?#focusColor']!.value,
+    hoverColor: children['?#hoverColor']!.value,
+    alignLabelWithHint: children['@?!#alignLabelWithHint']!.value ?? false,
   ) :
   source == 'ColorScheme.light' ? ColorScheme.light(
     primary: children['@?!#primary']!.value ?? const Color(0xff6200ee),
@@ -346,6 +366,7 @@ Object? _buildValue(String source, Map<String, SourceNode> children) =>
     hintColor: children['?#hintColor']!.value,
     errorColor: children['?#errorColor']!.value,
     toggleableActiveColor: children['?#toggleableActiveColor']!.value,
+    inputDecorationTheme: children['?#inputDecorationTheme']!.value,
     sliderTheme: children['?#sliderTheme']!.value,
     tabBarTheme: children['?#tabBarTheme']!.value,
     applyElevationOverlayColor: children['?#applyElevationOverlayColor']!.value,

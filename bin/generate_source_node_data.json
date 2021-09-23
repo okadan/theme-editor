@@ -17,7 +17,8 @@
     "CheckboxThemeData",
     "RadioThemeData",
     "SwitchThemeData",
-    "SliderThemeData"
+    "SliderThemeData",
+    "InputDecorationTheme"
   ],
   "executableNames": [
     "ThemeData",
@@ -37,7 +38,8 @@
     "RadioThemeData",
     "SwitchThemeData",
     "SliderThemeData",
-    "ButtonStyle"
+    "ButtonStyle",
+    "InputDecorationTheme"
   ],
   "options": [
     "true",

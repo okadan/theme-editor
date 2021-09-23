@@ -211,3 +211,8 @@ final Iterable<SourceNode<SwitchThemeData>> switchThemeDataOptions = [
   SourceNode(),
   switchThemeDataNode,
 ];
+
+final Iterable<SourceNode<InputDecorationTheme>> inputDecorationThemeOptions = [
+  SourceNode(),
+  inputDecorationThemeNode,
+];

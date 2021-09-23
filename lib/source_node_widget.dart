@@ -41,6 +41,8 @@ Widget buildEditorField(BuildContext context, Iterable<String> path, SourceNode 
     return ChildrenEditorField<TextButtonThemeData>(path, node);
   if (node is SourceNode<ButtonStyle>)
     return ChildrenEditorField<ButtonStyle>(path, node);
+  if (node is SourceNode<InputDecorationTheme>)
+    return ChildrenEditorField(path, node);
   if (node is SourceNode<MaterialStateProperty<Color>>)
     return _MaterialStatePropertyAllColorWrapper(path, node, onChanged).buildEditorField();
   throw('unsupported: path=$path node=$node');
@@ -76,6 +78,8 @@ Widget buildEditor(BuildContext context, Iterable<String> path, SourceNode node)
     return SelectableChildrenEditor<TextButtonThemeData>(path, node, onChanged, textButtonThemeDataOptions);
   if (node is SourceNode<ButtonStyle>)
     return SelectableChildrenEditor<ButtonStyle>(path, node, onChanged, buttonStyleOptions);
+  if (node is SourceNode<InputDecorationTheme>)
+    return SelectableChildrenEditor(path, node, onChanged, inputDecorationThemeOptions);
   if (node is SourceNode<MaterialStateProperty<Color>>)
     return _MaterialStatePropertyAllColorWrapper(path, node, onChanged).buildEditor();
   throw('unsupported: path=$path node=$node');
