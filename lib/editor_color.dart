@@ -91,7 +91,7 @@ class ColorEditor<T extends Color> extends StatelessWidget {
                     (value) => onChanged(value as SourceNode<T>),
                   );
                 })
-              else if (node is SourceNode<Color>)
+              else
                 ..._colorOptionsGrid.expand((options) => List.generate(16, (i) {
                   if (options.length <= i)
                     return SizedBox.shrink();
