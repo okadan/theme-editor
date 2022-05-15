@@ -89,7 +89,7 @@ class _SnackBarPreviewState extends State<_SnackBarPreview> {
               builder: (context) {
                 if (!isShown) {
                   isShown = true;
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: Duration(days: 1),
                       content: Text('SnackBar'),
