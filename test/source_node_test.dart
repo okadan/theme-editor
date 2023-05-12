@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 void main() {
   group('has the correct source and value: ', () {

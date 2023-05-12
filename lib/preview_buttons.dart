@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/constants.dart' as constants;
+import 'package:flutter_theme_editor/constants.dart' as constants;
 
 class ButtonsPreview extends StatelessWidget {
   @override

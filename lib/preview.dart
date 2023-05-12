@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/constants.dart' as constants;
-import 'package:theme_editor/preview_bars.dart';
-import 'package:theme_editor/preview_buttons.dart';
-import 'package:theme_editor/preview_controls.dart';
-import 'package:theme_editor/preview_text_fields.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/constants.dart' as constants;
+import 'package:flutter_theme_editor/preview_bars.dart';
+import 'package:flutter_theme_editor/preview_buttons.dart';
+import 'package:flutter_theme_editor/preview_controls.dart';
+import 'package:flutter_theme_editor/preview_text_fields.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 class Preview extends StatelessWidget {
   Preview(this.node);

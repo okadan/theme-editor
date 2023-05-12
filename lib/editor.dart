@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:theme_editor/editor_children.dart';
-import 'package:theme_editor/source_node.dart';
-import 'package:theme_editor/source_node_widget.dart';
+import 'package:flutter_theme_editor/editor_children.dart';
+import 'package:flutter_theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/source_node_widget.dart';
 
 class Editor extends StatefulWidget {
   Editor(Key key, this.node, this.onChanged) : super(key: key);
@@ -39,7 +39,7 @@ class EditorState extends State<Editor> {
             padding: EdgeInsets.all(4),
             child: RichText(
               text: TextSpan(
-                style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600),
                 children: [
                   TextSpan(
                     text: widget.node.source,

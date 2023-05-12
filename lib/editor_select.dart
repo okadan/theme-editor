@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/editor_children.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/editor_children.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 class SelectEditorField<T> extends StatelessWidget {
   SelectEditorField(this.path, this.node, this.onChanged, this.options);

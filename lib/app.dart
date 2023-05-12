@@ -4,10 +4,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:theme_editor/constants.dart' as constants;
-import 'package:theme_editor/editor.dart';
-import 'package:theme_editor/preview.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/constants.dart' as constants;
+import 'package:flutter_theme_editor/editor.dart';
+import 'package:flutter_theme_editor/preview.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 class App extends StatelessWidget {
   @override

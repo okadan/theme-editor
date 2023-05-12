@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/editor.dart';
-import 'package:theme_editor/editor_children.dart';
-import 'package:theme_editor/editor_color.dart';
-import 'package:theme_editor/editor_select.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/editor.dart';
+import 'package:flutter_theme_editor/editor_children.dart';
+import 'package:flutter_theme_editor/editor_color.dart';
+import 'package:flutter_theme_editor/editor_select.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 Widget buildEditorField(BuildContext context, Iterable<String> path, SourceNode node) {
   final onChanged = (SourceNode value) => Editor.of(context).onChanged(path, value);

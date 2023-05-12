@@ -15,7 +15,7 @@ class SourceNode<T> {
   final Map<String, SourceNode> children;
 
   @override
-  int get hashCode => hashValues(source, children);
+  int get hashCode => Object.hash(source, children);
 
   @override
   bool operator ==(Object other) {

@@ -1,10 +1,11 @@
-name: theme_editor
+name: flutter_theme_editor
 description: Flutter web app for editing and previewing the ThemeData object.
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:

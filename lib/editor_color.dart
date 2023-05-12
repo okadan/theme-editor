@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme_editor/editor.dart';
-import 'package:theme_editor/source_node.dart';
+import 'package:flutter_theme_editor/editor.dart';
+import 'package:flutter_theme_editor/source_node.dart';
 
 class ColorEditorField<T extends Color> extends StatelessWidget {
   ColorEditorField(this.path, this.node);
